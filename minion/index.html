@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaito & Shizuka Wedding 🍌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --yellow: #FFD300;
+      --dark-yellow: #E8C000;
+      --blue: #1A3C6E;
+      --mid-blue: #2855A0;
+      --light-blue: #6AAEE8;
+      --silver: #C0C8D4;
+      --white: #FFFFFF;
+      --dark: #2C2C2C;
+      --gray: #666666;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--yellow);
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── Floating bananas ── */
+    .banana {
+      position: fixed;
+      font-size: 1.8rem;
+      pointer-events: none;
+      opacity: 0;
+      animation: floatUp linear infinite;
+      z-index: 0;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.18; }
+      90%  { opacity: 0.18; }
+      100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(175deg, var(--blue) 0%, var(--blue) 58%, var(--yellow) 58%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 42% 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 2px, transparent 2px);
+      background-size: 28px 28px;
+    }
+
+    .hero-eyecatch {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(1.1rem, 3.5vw, 1.8rem);
+      color: var(--yellow);
+      letter-spacing: 6px;
+      text-align: center;
+      margin-bottom: 1rem;
+      z-index: 1;
+    }
+
+    .minion-duo {
+      display: flex;
+      gap: clamp(0.5rem, 3vw, 1rem);
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .minion-duo img {
+      width: clamp(110px, 28vw, 160px);
+      height: auto;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+      object-fit: contain;
+    }
+
+    .minion-groom { animation: sway 3.2s ease-in-out infinite; }
+    .minion-bride  { animation: sway 3.2s ease-in-out infinite reverse; }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-4deg) translateY(0); }
+      50%       { transform: rotate(4deg) translateY(-12px); }
+    }
+
+    /* ── Section divider with minion photo ── */
+    .minion-divider {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      overflow: hidden;
+      background: var(--yellow);
+      padding-top: 1rem;
+    }
+    .minion-divider img {
+      width: min(100%, 480px);
+      height: auto;
+      display: block;
+    }
+
+    /* ── RSVP mascot image ── */
+    .rsvp-img {
+      width: clamp(100px, 30vw, 150px);
+      height: auto;
+      display: block;
+      margin: 0 auto 1rem;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
+      animation: mascot-bounce 2s ease-in-out infinite;
+    }
+
+    /* ── Deco minion (messages) ── */
+    .msg-deco {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 1.2rem;
+    }
+    .msg-deco img {
+      width: clamp(70px, 18vw, 100px);
+      height: auto;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+      transform: scaleX(-1);
+    }
+
+    .hero-card {
+      background: var(--yellow);
+      border-radius: 24px;
+      padding: 1.5rem 2rem 1.8rem;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.25), 0 0 0 6px var(--dark-yellow), 0 0 0 10px var(--blue);
+      z-index: 1;
+      margin-top: -18px;
+    }
+
+    .hero-names-en {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2rem, 6vw, 3.8rem);
+      color: var(--blue);
+      letter-spacing: 3px;
+      line-height: 1;
+    }
+    .hero-amp { color: var(--mid-blue); font-size: 0.7em; }
+
+    .hero-names-jp {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 700;
+      color: var(--dark);
+      margin-top: 0.4rem;
+    }
+
+    .hero-date {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+      color: var(--blue);
+      letter-spacing: 2px;
+      margin-top: 0.5rem;
+    }
+
+    .hero-venue-txt {
+      font-size: 0.78rem;
+      letter-spacing: 4px;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 1.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      z-index: 1;
+    }
+    .scroll-indicator span {
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      color: var(--dark);
+      font-weight: 700;
+    }
+    .scroll-chevron {
+      width: 18px; height: 18px;
+      border-right: 3px solid var(--dark);
+      border-bottom: 3px solid var(--dark);
+      transform: rotate(45deg);
+      animation: chevron-bounce 1.5s ease-in-out infinite;
+    }
+    @keyframes chevron-bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(6px); }
+    }
+
+    /* ── COUNTDOWN ── */
+    #countdown {
+      background: var(--blue);
+      padding: 3rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .countdown-label-top {
+      font-family: 'Bangers', cursive;
+      font-size: 1.3rem;
+      color: var(--yellow);
+      letter-spacing: 6px;
+    }
+    .countdown-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.6rem;
+      width: 100%;
+      max-width: 360px;
+    }
+    .cd-box {
+      background: var(--yellow);
+      border-radius: 14px;
+      padding: 0.8rem 0.3rem;
+      text-align: center;
+      box-shadow: 0 4px 0 var(--dark-yellow);
+      position: relative;
+      overflow: hidden;
+    }
+    .cd-box::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 48%;
+      background: rgba(255,255,255,0.22);
+      border-radius: 14px 14px 0 0;
+    }
+    .cd-num {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      color: var(--blue);
+      line-height: 1;
+    }
+    .cd-unit {
+      font-size: 0.6rem;
+      color: var(--gray);
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    /* ── SHARED FADE-IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── INVITATION ── */
+    #invitation {
+      background: var(--yellow);
+      padding: 4.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .section-tag {
+      font-family: 'Bangers', cursive;
+      font-size: 0.9rem;
+      letter-spacing: 6px;
+      color: var(--blue);
+      margin-bottom: 2rem;
+    }
+    .section-tag::before, .section-tag::after { content: ' 🍌 '; }
+
+    .inv-card {
+      max-width: 580px;
+      width: 100%;
+      background: var(--white);
+      border-radius: 22px;
+      padding: 2.5rem 2rem;
+      box-shadow:
+        0 0 0 6px var(--dark-yellow),
+        0 0 0 10px var(--blue),
+        0 16px 48px rgba(0,0,0,0.12);
+      text-align: center;
+    }
+    .inv-headline {
+      font-family: 'Bangers', cursive;
+      font-size: 1.4rem;
+      color: var(--blue);
+      letter-spacing: 5px;
+      margin-bottom: 1.5rem;
+    }
+    .inv-body {
+      font-size: 0.93rem;
+      line-height: 2.6;
+      color: var(--dark);
+    }
+    .inv-date-note {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--gray);
+      letter-spacing: 2px;
+    }
+
+    /* ── SCHEDULE ── */
+    #schedule {
+      background: var(--blue);
+      padding: 4.5rem 1.5rem;
+    }
+    .schedule-wrap { max-width: 580px; margin: 0 auto; }
+    .schedule-ttl {
+      font-family: 'Bangers', cursive;
+      font-size: 2rem;
+      color: var(--yellow);
+      text-align: center;
+      letter-spacing: 6px;
+      margin-bottom: 2.5rem;
+    }
+
+    .timeline { position: relative; padding-left: 1.8rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 5px; top: 10px; bottom: 10px;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--yellow), var(--dark-yellow));
+      border-radius: 3px;
+    }
+
+    .tl-item {
+      position: relative;
+      margin-bottom: 2rem;
+      padding-left: 1.4rem;
+    }
+    .tl-dot {
+      position: absolute;
+      left: -1.6rem; top: 5px;
+      width: 13px; height: 13px;
+      background: var(--yellow);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px var(--blue), 0 0 0 5px var(--yellow);
+    }
+    .tl-time {
+      font-family: 'Bangers', cursive;
+      font-size: 1.5rem;
+      color: var(--yellow);
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+    .tl-event {
+      font-weight: 700;
+      color: var(--white);
+      font-size: 0.95rem;
+      margin-top: 0.15rem;
+    }
+    .tl-note {
+      font-size: 0.8rem;
+      color: var(--light-blue);
+      margin-top: 0.15rem;
+    }
+    .tl-end {
+      font-size: 0.85rem;
+      color: var(--yellow);
+      margin-top: 0.2rem;
+    }
+
+    /* ── VENUE ── */
+    #venue {
+      background: var(--yellow);
+      padding: 4.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .venue-card {
+      max-width: 580px;
+      width: 100%;
+      background: var(--blue);
+      border-radius: 22px;
+      padding: 2rem 1.8rem;
+      color: var(--white);
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+    .venue-sub {
+      font-family: 'Bangers', cursive;
+      letter-spacing: 6px;
+      color: var(--yellow);
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+    .venue-name-big {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .venue-addr {
+      font-size: 0.82rem;
+      color: var(--light-blue);
+      margin-bottom: 1.5rem;
+    }
+    .venue-buttons {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .venue-btn {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 0 var(--dark-yellow);
+    }
+    .venue-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--dark-yellow); }
+    .venue-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--dark-yellow); }
+
+    /* ── MESSAGES ── */
+    #messages {
+      background: var(--blue);
+      padding: 4.5rem 1.5rem;
+    }
+    .msg-wrap { max-width: 580px; margin: 0 auto; }
+    .msg-ttl {
+      font-family: 'Bangers', cursive;
+      font-size: 2rem;
+      color: var(--yellow);
+      text-align: center;
+      letter-spacing: 5px;
+      margin-bottom: 2rem;
+    }
+    .msg-card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 1.6rem 1.5rem 1.5rem;
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+    .msg-card::before {
+      content: attr(data-icon);
+      font-size: 2rem;
+      position: absolute;
+      top: -1.1rem;
+      left: 1.5rem;
+      line-height: 1;
+    }
+    .msg-role {
+      font-family: 'Bangers', cursive;
+      font-size: 1.1rem;
+      color: var(--blue);
+      letter-spacing: 4px;
+    }
+    .msg-name {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.6rem;
+      color: var(--dark);
+    }
+    .msg-text {
+      font-size: 0.9rem;
+      color: var(--gray);
+      line-height: 1.85;
+    }
+
+    /* ── INFO ── */
+    #info {
+      background: var(--yellow);
+      padding: 3.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .info-list {
+      max-width: 580px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .info-item {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 0 var(--dark-yellow);
+      font-size: 0.93rem;
+      font-weight: 700;
+      color: var(--blue);
+      text-decoration: none;
+      transition: transform 0.15s;
+    }
+    .info-item:hover { transform: translateY(-2px); }
+    .info-item span { font-size: 1rem; }
+
+    /* ── RSVP ── */
+    #rsvp {
+      background: var(--blue);
+      padding: 4.5rem 1.5rem;
+      text-align: center;
+    }
+    .rsvp-wrap { max-width: 500px; margin: 0 auto; }
+    .rsvp-mascot {
+      font-size: 4rem;
+      display: block;
+      margin: 0 auto 1rem;
+      animation: mascot-bounce 2s ease-in-out infinite;
+    }
+    @keyframes mascot-bounce {
+      0%, 100% { transform: rotate(-6deg) translateY(0); }
+      50%       { transform: rotate(6deg) translateY(-14px); }
+    }
+    .rsvp-ttl {
+      font-family: 'Bangers', cursive;
+      font-size: 2.3rem;
+      color: var(--yellow);
+      letter-spacing: 6px;
+      margin-bottom: 1rem;
+    }
+    .rsvp-body {
+      font-size: 0.93rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.9;
+    }
+    .rsvp-deadline {
+      color: var(--yellow);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .rsvp-btn {
+      display: inline-block;
+      margin-top: 2rem;
+      background: var(--yellow);
+      color: var(--blue);
+      font-family: 'Bangers', cursive;
+      font-size: 1.4rem;
+      letter-spacing: 3px;
+      padding: 1rem 3.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 6px 0 var(--dark-yellow);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .rsvp-btn:hover { transform: translateY(-3px); box-shadow: 0 9px 0 var(--dark-yellow); }
+    .rsvp-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 var(--dark-yellow); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0f2444;
+      color: var(--light-blue);
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.8rem;
+    }
+    footer strong {
+      display: block;
+      font-family: 'Bangers', cursive;
+      font-size: 1.2rem;
+      color: var(--yellow);
+      letter-spacing: 3px;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── Sticky bottom bar (mobile) ── */
+    .sticky-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--blue);
+      border-top: 3px solid var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1.2rem;
+      z-index: 100;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+    }
+    .sticky-info { font-size: 0.75rem; color: var(--light-blue); line-height: 1.4; }
+    .sticky-info b { color: var(--yellow); }
+    .sticky-btn {
+      background: var(--yellow);
+      color: var(--blue);
+      font-family: 'Bangers', cursive;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      padding: 0.55rem 1.3rem;
+      border-radius: 30px;
+      text-decoration: none;
+      box-shadow: 0 4px 0 var(--dark-yellow);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ FLOATING BANANAS ══════════ -->
+<div id="bananas"></div>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <p class="hero-eyecatch">🍌 WEDDING INVITATION 🍌</p>
+
+  <div class="minion-duo">
+    <!-- GROOM MINION (Kaito) — one-eye minion -->
+    <img class="minion-groom" src="photos/minion-mury-irasuto.png" alt="新郎ミニオン">
+
+    <!-- BRIDE MINION (Shizuka) — cute minion with teddy bear -->
+    <img class="minion-bride" src="photos/39e88de62f7c79fd758c4db002859427.png" alt="新婦ミニオン">
+  </div>
+
+  <div class="hero-card">
+    <div class="hero-names-en">KAITO <span class="hero-amp">&amp;</span> SHIZUKA</div>
+    <div class="hero-names-jp">山口 海斗 &amp; 門脇 静香</div>
+    <div class="hero-date">2026.12.12</div>
+    <div class="hero-venue-txt">SHINAGAWA PRINCE HOTEL</div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <div class="scroll-chevron"></div>
+  </div>
+</section>
+
+<!-- ══════════ COUNTDOWN ══════════ -->
+<section id="countdown">
+  <p class="countdown-label-top">COUNTDOWN TO THE BIG DAY 🍌</p>
+  <div class="countdown-row">
+    <div class="cd-box"><div class="cd-num" id="cd-days">--</div><div class="cd-unit">DAYS</div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-hours">--</div><div class="cd-unit">HOURS</div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-mins">--</div><div class="cd-unit">MIN</div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-secs">--</div><div class="cd-unit">SEC</div></div>
+  </div>
+</section>
+
+<!-- ══════════ INVITATION ══════════ -->
+<section id="invitation">
+  <p class="section-tag fade-in">INVITATION</p>
+  <div class="inv-card fade-in">
+    <div class="inv-headline">結婚式のご案内</div>
+    <div class="inv-body">
+      謹啓　皆さまいかがお過ごしでしょうか<br>
+      このたび　私たちは結婚式を挙げることになりました<br><br>
+      つきましては　日頃の感謝をお伝えしたく<br>
+      ささやかな披露の席を設けました<br><br>
+      ご多用中誠に恐縮に存じますが<br>
+      ぜひご出席いただきたく　ご案内申し上げます
+    </div>
+    <div class="inv-date-note">謹白　令和八年十二月吉日</div>
+  </div>
+</section>
+
+<!-- ── Schedule section divider (minions from behind) ── -->
+<div class="minion-divider">
+  <img src="photos/cute-nawpic-15_464ee4391ee208b8ddd0a32ade6a5e5d_s.png" alt="ミニオンたち">
+</div>
+
+<!-- ══════════ THE DAY ══════════ -->
+<section id="schedule">
+  <div class="schedule-wrap">
+    <div class="schedule-ttl fade-in">🍌 THE DAY 🍌</div>
+    <div class="timeline">
+      <div class="tl-item fade-in">
+        <div class="tl-dot"></div>
+        <div class="tl-time">15:55</div>
+        <div class="tl-event">親族控室　集合</div>
+        <div class="tl-note">メインタワー3階　お荷物は2階クロークへ</div>
+      </div>
+      <div class="tl-item fade-in" style="transition-delay:0.1s">
+        <div class="tl-dot"></div>
+        <div class="tl-time">16:25</div>
+        <div class="tl-event">ご来賓　挙式列席者控室</div>
+        <div class="tl-note">挙式20分前までにメインタワー3階へ</div>
+      </div>
+      <div class="tl-item fade-in" style="transition-delay:0.2s">
+        <div class="tl-dot"></div>
+        <div class="tl-time">16:45</div>
+        <div class="tl-event">挙式</div>
+        <div class="tl-end">〜 17:45</div>
+      </div>
+      <div class="tl-item fade-in" style="transition-delay:0.3s">
+        <div class="tl-dot"></div>
+        <div class="tl-time">17:30</div>
+        <div class="tl-event">披露宴からの方　受付</div>
+        <div class="tl-note">メインタワー来賓控室</div>
+      </div>
+      <div class="tl-item fade-in" style="transition-delay:0.4s">
+        <div class="tl-dot"></div>
+        <div class="tl-time">18:00</div>
+        <div class="tl-event">披露宴</div>
+        <div class="tl-end">〜 20:30 お開き</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ VENUE ══════════ -->
+<section id="venue">
+  <p class="section-tag fade-in">VENUE</p>
+  <div class="venue-card fade-in">
+    <div class="venue-sub">SHINAGAWA PRINCE HOTEL</div>
+    <div class="venue-name-big">品川プリンスホテル</div>
+    <div class="venue-addr">東京都港区高輪4-10-30 ／ メインタワー</div>
+    <div class="venue-buttons">
+      <a class="venue-btn" href="https://www.princehotels.co.jp/shinagawa/" target="_blank">🏨 ホテルTOP</a>
+      <a class="venue-btn" href="https://maps.google.com/?q=品川プリンスホテル" target="_blank">🗺 アクセス</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MESSAGES ══════════ -->
+<section id="messages">
+  <div class="msg-wrap">
+    <div class="msg-ttl fade-in">💌 MESSAGE</div>
+    <div class="msg-deco fade-in">
+      <img src="photos/kebin-minion-no-irasuto.png" alt="ケビンミニオン">
+    </div>
+    <div class="msg-card fade-in" data-icon="🤵">
+      <div class="msg-role">GROOM</div>
+      <div class="msg-name">山口 海斗</div>
+      <div class="msg-text">支えてくださった皆さまへ感謝を込めて<br>これからも静香さんと共に温かい家庭を築いてまいります</div>
+    </div>
+    <div class="msg-card fade-in" data-icon="👰">
+      <div class="msg-role">BRIDE</div>
+      <div class="msg-name">門脇 静香</div>
+      <div class="msg-text">たくさんのご縁に恵まれて今日を迎えました<br>変わらぬお付き合いをお願いいたします</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ INFO ══════════ -->
+<section id="info">
+  <p class="section-tag fade-in">INFORMATION</p>
+  <div class="info-list fade-in">
+    <a class="info-item" href="#">食物アレルギーへの対応について <span>→</span></a>
+    <a class="info-item" href="#">列席者美容・よくあるご質問 <span>→</span></a>
+    <a class="info-item" href="#">駐車場・宿泊のご案内 <span>→</span></a>
+  </div>
+</section>
+
+<!-- ══════════ RSVP ══════════ -->
+<section id="rsvp">
+  <div class="rsvp-wrap">
+    <img class="rsvp-img fade-in" src="photos/minion-no-mury-irasuto.png" alt="ミニオン">
+    <div class="rsvp-ttl fade-in">RSVP</div>
+    <div class="rsvp-body fade-in">
+      お手数ではございますが<br>
+      ご出欠のお返事を<br>
+      <span class="rsvp-deadline">11月10日</span> までにいただけますと幸いです
+    </div>
+    <a class="rsvp-btn fade-in" href="#">出欠の回答をする</a>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <strong>KAITO &amp; SHIZUKA — 12.12.2026</strong>
+  品川プリンスホテル　メインタワー
+</footer>
+
+<!-- Sticky bar -->
+<div class="sticky-bar">
+  <div class="sticky-info">
+    <b>回答期限 11月10日</b><br>
+    15:55 メインタワー3階 親族控室
+  </div>
+  <a class="sticky-btn" href="#rsvp">回答する</a>
+</div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+  /* ── Countdown ── */
+  const target = new Date('2026-12-12T16:45:00+09:00');
+  function tick() {
+    const now  = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent = '0');
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
+    document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* ── Scroll fade-in ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  /* ── Floating bananas ── */
+  const container = document.getElementById('bananas');
+  for (let i = 0; i < 14; i++) {
+    const b = document.createElement('div');
+    b.className = 'banana';
+    b.textContent = '🍌';
+    b.style.left = (Math.random() * 100) + 'vw';
+    b.style.animationDuration = (12 + Math.random() * 16) + 's';
+    b.style.animationDelay   = (Math.random() * 20) + 's';
+    b.style.fontSize = (1.2 + Math.random() * 1.4) + 'rem';
+    container.appendChild(b);
+  }
+</script>
+</body>
+</html>
