@@ -418,5 +418,70 @@ document.addEventListener('submit',function(e){
   });
 },true);
 </script>
+
+<script>
+(function(){
+  function createMinionModal(){
+    if(document.getElementById('minion-modal'))return;
+
+    var st=document.createElement('style');
+    st.textContent=[
+      '@keyframes minionShake{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}',
+      '@keyframes minionModalIn{from{opacity:0;transform:scale(0.85) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}',
+      '#minion-modal-card{animation:minionModalIn 0.35s cubic-bezier(.2,.8,.3,1) both}',
+      '#minion-img-anim{animation:minionShake 1.6s ease-in-out infinite}'
+    ].join('');
+    document.head.appendChild(st);
+
+    var overlay=document.createElement('div');
+    overlay.id='minion-modal';
+    overlay.style.cssText='display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px;box-sizing:border-box;';
+
+    overlay.innerHTML=
+      '<div id="minion-modal-card" style="background:#1c1d20;border:1px solid rgba(230,201,138,0.38);border-radius:20px;max-width:340px;width:100%;padding:28px 24px 28px;text-align:center;position:relative;overflow:hidden;">'+
+        '<div id="minion-img-anim" style="margin-bottom:24px;">'+
+          '<img src="../images/minions.jpg" style="width:100%;height:auto;display:block;border-radius:12px;border:2px solid rgba(230,201,138,0.35);" alt="ミニオン">'+
+        '</div>'+
+        '<div style="font-family:\'Shippori Mincho B1\',serif;font-size:19px;color:#fff;letter-spacing:0.08em;margin-bottom:24px;">本当によろしいですか？</div>'+
+        '<button id="minion-btn-yes" style="display:block;width:100%;background:#e6c98a;color:#14150f;border:0;padding:15px 0;font-size:13.5px;letter-spacing:0.12em;font-weight:600;cursor:pointer;font-family:\'Noto Sans JP\',sans-serif;margin-bottom:12px;border-radius:6px;">やっぱり行きます！</button>'+
+        '<button id="minion-btn-no" style="display:block;width:100%;background:transparent;color:rgba(240,236,228,0.48);border:1px solid rgba(240,236,228,0.18);padding:12px 0;font-size:12.5px;letter-spacing:0.08em;cursor:pointer;font-family:\'Noto Sans JP\',sans-serif;border-radius:6px;">欠席します</button>'+
+      '</div>';
+
+    document.body.appendChild(overlay);
+
+    document.getElementById('minion-btn-yes').addEventListener('click',function(){
+      var r=document.querySelector('input[name="entry.438600370"][value="ご出席"]');
+      if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
+      overlay.style.display='none';
+    });
+
+    document.getElementById('minion-btn-no').addEventListener('click',function(){
+      overlay.style.display='none';
+    });
+
+    overlay.addEventListener('click',function(e){
+      if(e.target===overlay){
+        var r=document.querySelector('input[name="entry.438600370"][value="ご出席"]');
+        if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
+        overlay.style.display='none';
+      }
+    });
+  }
+
+  document.addEventListener('change',function(e){
+    if(e.target&&e.target.type==='radio'&&
+       e.target.name==='entry.438600370'&&
+       e.target.value==='ご欠席'){
+      createMinionModal();
+      var m=document.getElementById('minion-modal');
+      if(m){
+        m.style.display='flex';
+        var card=document.getElementById('minion-modal-card');
+        if(card){card.style.animation='none';void card.offsetWidth;card.style.animation='';}
+      }
+    }
+  });
+})();
+</script>
 </body>
 </html>
