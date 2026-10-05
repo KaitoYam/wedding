@@ -3,5 +3,7 @@
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./sample1"
-  }
+  },
+  "workers_dev": true,
+  "preview_urls": false
 }
