@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>KAITO &amp; SHIZUKA — Wedding 2026.12.12</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Noto+Sans+JP:wght@300;400&family=Shippori+Mincho+B1:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --bg: #080810;
+      --bg1: #0c0c1a;
+      --gold: #c8a96a;
+      --gold-l: #e0c47a;
+      --gold-d: #7a5a2a;
+      --gold-glow: rgba(200,169,106,.3);
+      --text: #f0ece4;
+      --text-s: rgba(240,236,228,.62);
+      --text-m: rgba(240,236,228,.3);
+      --glass: rgba(255,255,255,.04);
+      --glass-h: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.08);
+      --border-g: rgba(200,169,106,.22);
+      --r: 16px;
+      --r-s: 8px;
+      --maxw: 480px;
+    }
+
+    /* ── RESET ── */
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Noto Sans JP',-apple-system,sans-serif;
+      font-weight:300;
+      line-height:1.7;
+      overflow-x:hidden;
+    }
+    a { color:inherit; text-decoration:none; }
+    img { display:block; max-width:100%; }
+
+    /* ── THREE.JS CANVAS ── */
+    #bg-canvas {
+      position:fixed; top:0; left:0;
+      width:100%; height:100%;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    /* ── CSS PARTICLE FALLBACK ── */
+    .css-ptcl {
+      position:fixed; inset:0;
+      z-index:0; pointer-events:none; overflow:hidden;
+    }
+    .cpp {
+      position:absolute; border-radius:50%;
+      background:var(--gold);
+      animation:cfloat linear infinite; opacity:0;
+    }
+    @keyframes cfloat {
+      0%   { transform:translateY(100vh) translateX(0) scale(0); opacity:0; }
+      10%  { opacity:.5; }
+      90%  { opacity:.25; }
+      100% { transform:translateY(-120px) translateX(var(--dr)) scale(1); opacity:0; }
+    }
+
+    /* ── NAV DOTS ── */
+    .navd {
+      position:fixed; right:18px; top:50%;
+      transform:translateY(-50%);
+      z-index:100; display:flex; flex-direction:column; gap:10px;
+    }
+    .navd-dot {
+      width:6px; height:6px; border-radius:50%;
+      background:var(--border); border:1px solid var(--border);
+      cursor:pointer; transition:all .3s;
+    }
+    .navd-dot.on {
+      background:var(--gold); border-color:var(--gold);
+      box-shadow:0 0 8px var(--gold-glow);
+    }
+    @media(max-width:480px){ .navd{ display:none; } }
+
+    /* ── SECTION BASE ── */
+    .sec {
+      position:relative; z-index:1;
+      max-width:var(--maxw); margin:0 auto;
+      padding:80px 24px;
+    }
+    .sec::before {
+      content:''; position:absolute; inset:-60px;
+      background:radial-gradient(ellipse at center, rgba(8,8,16,.9) 40%, transparent 80%);
+      pointer-events:none; z-index:-1;
+    }
+    .s-label {
+      font-family:'Cormorant Garamond',Georgia,serif;
+      font-size:10px; font-weight:300; letter-spacing:5px;
+      text-transform:uppercase; color:var(--gold); margin-bottom:6px;
+    }
+    .s-title {
+      font-family:'Cormorant Garamond',Georgia,serif;
+      font-size:34px; font-weight:300; letter-spacing:6px;
+      text-transform:uppercase; color:var(--text);
+      margin-bottom:40px; position:relative;
+    }
+    .s-title::after {
+      content:''; position:absolute;
+      bottom:-10px; left:0;
+      width:40px; height:1px; background:var(--gold);
+    }
+    .s-title.ctr::after { left:50%; transform:translateX(-50%); }
+
+    /* ── GLASS CARD ── */
+    .glass {
+      background:var(--glass);
+      border:1px solid var(--border);
+      border-radius:var(--r);
+      backdrop-filter:blur(24px);
+      -webkit-backdrop-filter:blur(24px);
+    }
+
+    /* ── GOLD DIVIDER ── */
+    .gdiv {
+      position:relative; z-index:1;
+      max-width:var(--maxw); margin:0 auto 0;
+      padding:0 24px;
+    }
+    .gdiv::after {
+      content:''; display:block;
+      height:1px;
+      background:linear-gradient(to right,transparent,var(--gold-d),var(--gold),var(--gold-d),transparent);
+      opacity:.4;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .rev {
+      opacity:0;
+      transform:perspective(1000px) rotateX(10deg) translateY(48px);
+      transition:opacity .75s cubic-bezier(.4,0,.2,1),
+                 transform .75s cubic-bezier(.4,0,.2,1);
+    }
+    .rev.on { opacity:1; transform:perspective(1000px) rotateX(0) translateY(0); }
+    .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s}
+    .d4{transition-delay:.32s} .d5{transition-delay:.40s}
+
+    /* ══════════ HERO ══════════ */
+    #hero {
+      max-width:100%; height:100vh; min-height:580px;
+      display:flex; align-items:center; justify-content:center;
+      padding:0; overflow:hidden; position:relative; z-index:1;
+    }
+    .h-slides { position:absolute; inset:0; }
+    .h-slide {
+      position:absolute; inset:0;
+      background-size:cover; background-position:center;
+      opacity:0; transition:opacity 2.2s ease-in-out;
+    }
+    .h-slide.on { opacity:.28; }
+    .h-slide::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(to bottom,
+        rgba(8,8,16,.5) 0%,
+        rgba(8,8,16,.15) 35%,
+        rgba(8,8,16,.35) 70%,
+        rgba(8,8,16,.88) 100%);
+    }
+
+    .h-wrap { position:relative; z-index:2; text-align:center; padding:0 24px; }
+
+    .h-venue {
+      font-family:'Cormorant Garamond',serif;
+      font-size:11px; letter-spacing:5px;
+      color:var(--text-s); text-transform:uppercase; margin-bottom:22px;
+    }
+    .h-date {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(56px,16vw,90px); font-weight:300;
+      letter-spacing:-1px; line-height:1; color:var(--text);
+      margin-bottom:22px;
+      text-shadow:0 0 60px rgba(200,169,106,.25), 0 2px 8px rgba(0,0,0,.6);
+    }
+    .h-date .dot { color:var(--gold); }
+    .h-names {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(22px,5.5vw,34px); font-weight:300;
+      letter-spacing:10px; color:var(--text); margin-bottom:10px;
+    }
+    .h-names-ja {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:13px; letter-spacing:3px;
+      color:var(--text-s); margin-bottom:56px;
+    }
+    .h-scroll {
+      display:flex; flex-direction:column; align-items:center; gap:8px;
+      animation:hscroll 2.2s ease-in-out infinite;
+    }
+    .h-scroll-txt {
+      font-family:'Cormorant Garamond',serif;
+      font-size:10px; letter-spacing:5px; color:var(--text-m);
+    }
+    .h-scroll-ln {
+      width:1px; height:44px;
+      background:linear-gradient(to bottom, var(--gold),transparent);
+    }
+    @keyframes hscroll {
+      0%,100%{ opacity:.5; transform:translateY(0); }
+      50%{ opacity:1; transform:translateY(8px); }
+    }
+    .h-vert {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:11px; letter-spacing:5px; color:var(--gold);
+      writing-mode:vertical-rl; position:absolute;
+      top:50%; right:20px; transform:translateY(-50%);
+      z-index:2;
+    }
+
+    /* ══════════ COUNTDOWN ══════════ */
+    #countdown { text-align:center; }
+    #countdown .s-label { text-align:center; }
+    #countdown .s-title { text-align:center; }
+
+    .cd-sub {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:12px; letter-spacing:4px;
+      color:var(--text-s); margin-bottom:40px;
+    }
+
+    /* Days block */
+    .cd-days-wrap {
+      display:flex; justify-content:center; align-items:baseline;
+      gap:12px; margin-bottom:12px; perspective:800px;
+    }
+    .cd-days-num {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(80px,22vw,120px); font-weight:300;
+      line-height:1; color:var(--gold);
+      text-shadow:0 0 40px rgba(200,169,106,.5),0 0 80px rgba(200,169,106,.15);
+      transform-origin:center bottom; display:inline-block;
+    }
+    .cd-days-unit {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(18px,4vw,26px); font-weight:300;
+      letter-spacing:5px; color:var(--gold); align-self:flex-end;
+      padding-bottom:8px;
+    }
+
+    /* Time row */
+    .cd-time {
+      display:flex; justify-content:center;
+      align-items:flex-start; gap:0;
+      perspective:600px;
+    }
+    .cd-t-blk { display:flex; flex-direction:column; align-items:center; }
+    .cd-t-num {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(26px,6vw,36px); font-weight:300;
+      color:var(--text-s); line-height:1; display:inline-block;
+    }
+    .cd-t-unit {
+      font-family:'Cormorant Garamond',serif;
+      font-size:9px; letter-spacing:3px;
+      color:var(--gold); margin-top:4px; text-transform:uppercase;
+    }
+    .cd-sep {
+      font-family:'Cormorant Garamond',serif;
+      font-size:22px; color:var(--text-m);
+      padding:0 8px; line-height:1; margin-top:4px;
+    }
+
+    /* Flip animation */
+    .flip-out {
+      animation:fout .15s ease forwards;
+    }
+    .flip-in {
+      animation:fin .3s ease forwards;
+    }
+    @keyframes fout {
+      to { transform:perspective(400px) rotateX(90deg); opacity:0; }
+    }
+    @keyframes fin {
+      from { transform:perspective(400px) rotateX(-90deg); opacity:0; }
+      to   { transform:perspective(400px) rotateX(0); opacity:1; }
+    }
+
+    /* ══════════ INVITATION ══════════ */
+    .inv-card {
+      padding:40px 28px; position:relative; overflow:hidden;
+    }
+    .inv-card::before {
+      content:''; position:absolute; top:-50%; left:-50%;
+      width:200%; height:200%;
+      background:radial-gradient(ellipse at 55% 35%, rgba(200,169,106,.06), transparent 65%);
+      pointer-events:none;
+    }
+    .inv-txt {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:14px; line-height:2.3;
+      color:var(--text); text-align:center; margin-bottom:28px;
+    }
+    .inv-txt p+p { margin-top:18px; }
+    .inv-rule {
+      width:36px; height:1px;
+      background:var(--border-g);
+      margin:0 auto 24px;
+    }
+    .inv-sign {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:12px; line-height:2;
+      color:var(--text-s); text-align:right;
+    }
+
+    /* ══════════ THE DAY ══════════ */
+    .tabs {
+      display:flex; gap:0;
+      background:var(--glass); border:1px solid var(--border);
+      border-radius:50px; padding:4px;
+      margin-bottom:28px; overflow:hidden;
+    }
+    .tab {
+      flex:1; text-align:center; padding:10px 0;
+      border-radius:50px;
+      font-family:'Shippori Mincho B1',serif;
+      font-size:12px; letter-spacing:1px;
+      color:var(--text-s); cursor:pointer; transition:all .3s;
+    }
+    .tab.on {
+      background:var(--gold); color:var(--bg);
+    }
+
+    .timeline { position:relative; perspective:600px; }
+    .tl-item {
+      display:grid;
+      grid-template-columns:56px 1px 1fr;
+      gap:0 16px; padding:14px 0;
+      transition:transform .25s;
+    }
+    .tl-item:hover { transform:perspective(400px) translateZ(6px); }
+    .tl-time {
+      font-family:'Cormorant Garamond',serif;
+      font-size:18px; font-weight:300;
+      color:var(--gold); text-align:right;
+      line-height:1; padding-top:4px;
+    }
+    .tl-mid {
+      display:flex; flex-direction:column; align-items:center;
+    }
+    .tl-dot {
+      width:8px; height:8px; flex-shrink:0;
+      border-radius:50%; border:1px solid var(--gold);
+      background:var(--bg); margin-top:5px;
+    }
+    .tl-vl {
+      flex:1; width:1px;
+      background:var(--border); margin-top:4px;
+    }
+    .tl-last .tl-vl { display:none; }
+    .tl-ttl {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:14px; font-weight:600;
+      color:var(--text); line-height:1.4;
+    }
+    .tl-note {
+      font-size:11px; color:var(--text-s);
+      margin-top:3px; line-height:1.5;
+    }
+
+    /* ══════════ VENUE ══════════ */
+    .vn-en {
+      font-family:'Cormorant Garamond',serif;
+      font-size:10px; letter-spacing:5px;
+      color:var(--gold); text-transform:uppercase; margin-bottom:6px;
+    }
+    .vn-ja {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:26px; font-weight:600;
+      color:var(--text); margin-bottom:6px;
+    }
+    .vn-addr {
+      font-size:12px; color:var(--text-s);
+      line-height:1.8; margin-bottom:22px;
+    }
+    .vn-map {
+      position:relative; border-radius:var(--r);
+      overflow:hidden; aspect-ratio:4/3;
+      border:1px solid var(--border);
+    }
+    .vn-map iframe {
+      width:100%; height:100%; border:none; display:block;
+    }
+    .vn-deco {
+      font-family:'Cormorant Garamond',serif;
+      font-size:44px; font-weight:300;
+      color:rgba(255,255,255,.07); letter-spacing:4px;
+      text-align:right; margin-top:12px;
+      pointer-events:none; user-select:none;
+    }
+    .vn-deco .dot { color:var(--gold-d); }
+
+    /* ══════════ INFORMATION ══════════ */
+    .info-grid { display:grid; gap:10px; }
+    .info-a {
+      display:flex; align-items:center;
+      justify-content:space-between;
+      padding:15px 18px;
+      border-radius:var(--r-s);
+      border:1px solid var(--border);
+      transition:all .3s; cursor:pointer;
+      transform-style:preserve-3d;
+    }
+    .info-a:hover {
+      background:var(--glass-h);
+      border-color:var(--border-g);
+      transform:perspective(400px) translateZ(5px) translateX(4px);
+    }
+    .info-a-txt { font-size:12px; line-height:1.4; color:var(--text); }
+    .info-a-arr { font-size:14px; color:var(--gold); transition:transform .3s; }
+    .info-a:hover .info-a-arr { transform:translateX(4px); }
+
+    /* ══════════ MESSAGE ══════════ */
+    .msg-cards { display:grid; gap:18px; }
+    .msg-card {
+      padding:24px; display:grid;
+      grid-template-columns:76px 1fr; gap:18px;
+      align-items:start;
+      transform-style:preserve-3d;
+      transition:transform .12s ease;
+      will-change:transform;
+    }
+    .msg-ph {
+      width:76px; aspect-ratio:3/4;
+      border-radius:var(--r-s); overflow:hidden;
+      border:1px solid var(--border-g); background:var(--glass);
+    }
+    .msg-ph img { width:100%; height:100%; object-fit:cover; }
+    .msg-role {
+      font-family:'Cormorant Garamond',serif;
+      font-size:10px; letter-spacing:5px;
+      color:var(--gold); text-transform:uppercase; margin-bottom:3px;
+    }
+    .msg-name {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:16px; font-weight:600;
+      color:var(--text); margin-bottom:10px;
+    }
+    .msg-body {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:12px; line-height:2;
+      color:var(--text-s);
+    }
+
+    /* ══════════ RSVP ══════════ */
+    #rsvp .s-label { text-align:center; }
+    #rsvp .s-title { text-align:center; }
+    .rsvp-intro {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:13px; line-height:2.3;
+      color:var(--text-s); text-align:center; margin-bottom:28px;
+    }
+    .rsvp-form { display:flex; flex-direction:column; gap:16px; }
+    .fg { display:flex; flex-direction:column; gap:7px; }
+    .fl {
+      font-family:'Cormorant Garamond',serif;
+      font-size:11px; letter-spacing:3px; color:var(--text-s);
+    }
+    .fl em { color:var(--gold); font-style:normal; margin-left:4px; }
+    .fi {
+      width:100%; background:var(--glass); border:1px solid var(--border);
+      border-radius:var(--r-s); padding:11px 14px;
+      color:var(--text);
+      font-family:'Noto Sans JP',sans-serif; font-size:14px; font-weight:300;
+      outline:none; transition:border-color .3s, box-shadow .3s;
+      -webkit-appearance:none;
+    }
+    .fi::placeholder { color:var(--text-m); }
+    .fi:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(200,169,106,.1); }
+    textarea.fi { min-height:90px; resize:vertical; }
+    .rg { display:flex; gap:8px; flex-wrap:wrap; }
+    .rl {
+      display:flex; align-items:center; gap:7px;
+      padding:9px 14px;
+      background:var(--glass); border:1px solid var(--border);
+      border-radius:50px; cursor:pointer;
+      font-size:13px; color:var(--text-s); transition:all .3s;
+    }
+    .rl:has(input:checked) {
+      background:rgba(200,169,106,.14);
+      border-color:var(--gold); color:var(--gold);
+    }
+    .rl input { display:none; }
+    .fg-allergy { display:none; }
+    .fg-allergy.show { display:flex; }
+
+    .btn-sub {
+      width:100%; padding:15px;
+      background:transparent; border:1px solid var(--gold);
+      border-radius:50px; color:var(--gold);
+      font-family:'Cormorant Garamond',serif;
+      font-size:16px; letter-spacing:7px; text-transform:uppercase;
+      cursor:pointer; transition:all .35s;
+      position:relative; overflow:hidden; margin-top:4px;
+    }
+    .btn-sub::before {
+      content:''; position:absolute; inset:0;
+      background:var(--gold);
+      transform:translateX(-100%);
+      transition:transform .4s cubic-bezier(.4,0,.2,1);
+    }
+    .btn-sub:hover::before { transform:translateX(0); }
+    .btn-sub:hover { color:var(--bg); }
+    .btn-sub span { position:relative; z-index:1; }
+    .btn-sub:disabled { opacity:.5; cursor:default; }
+    .btn-sub:disabled::before { display:none; }
+
+    .rsvp-ok {
+      display:none; text-align:center; padding:36px 20px;
+    }
+    .rsvp-ok.show { display:block; }
+    .rsvp-ok-ico {
+      font-size:28px; color:var(--gold); margin-bottom:14px;
+    }
+    .rsvp-ok p {
+      font-family:'Shippori Mincho B1',serif;
+      font-size:14px; line-height:2.2; color:var(--text-s);
+    }
+
+    /* ══════════ FOOTER ══════════ */
+    footer {
+      position:relative; z-index:1;
+      text-align:center; padding:56px 24px 80px;
+      border-top:1px solid var(--border);
+    }
+    .ft-names {
+      font-family:'Cormorant Garamond',serif;
+      font-size:20px; font-weight:300;
+      letter-spacing:7px; color:var(--text-s);
+    }
+    .ft-date {
+      font-family:'Cormorant Garamond',serif;
+      font-size:11px; letter-spacing:5px;
+      color:var(--text-m); margin-top:7px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:480px){
+      .h-vert { display:none; }
+      .cd-days-num { font-size:80px !important; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="css-ptcl" id="cptcl"></div>
+
+<!-- NAV DOTS -->
+<nav class="navd" id="navd">
+  <div class="navd-dot on" data-t="hero"></div>
+  <div class="navd-dot" data-t="countdown"></div>
+  <div class="navd-dot" data-t="invitation"></div>
+  <div class="navd-dot" data-t="the-day"></div>
+  <div class="navd-dot" data-t="venue"></div>
+  <div class="navd-dot" data-t="information"></div>
+  <div class="navd-dot" data-t="message"></div>
+  <div class="navd-dot" data-t="rsvp"></div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="h-slides" id="hSlides">
+    <div class="h-slide" style="background-image:url('../images/045.jpg');background-position:center top"></div>
+    <div class="h-slide" style="background-image:url('../images/046.jpg');background-size:auto 140%;background-position:center 60%"></div>
+    <div class="h-slide" style="background-image:url('../images/LINE_ALBUM_結婚式用　写真_260816_2.jpg')"></div>
+  </div>
+  <div class="h-wrap">
+    <div class="h-venue">SHINAGAWA PRINCE HOTEL</div>
+    <div class="h-date">2026<span class="dot">.</span>12<span class="dot">.</span>12</div>
+    <div class="h-names">K &amp; S</div>
+    <div class="h-names-ja">山口 海斗 &amp; 門脇 静香</div>
+    <div class="h-scroll">
+      <span class="h-scroll-txt">SCROLL</span>
+      <div class="h-scroll-ln"></div>
+    </div>
+  </div>
+  <span class="h-vert">結婚式のご案内</span>
+</section>
+
+<!-- ═══ COUNTDOWN ═══ -->
+<section id="countdown" class="sec">
+  <p class="s-label rev">TIME REMAINING</p>
+  <h2 class="s-title ctr rev">COUNTDOWN</h2>
+  <p class="cd-sub rev d1">挙式まで</p>
+
+  <div class="cd-days-wrap rev d2">
+    <span class="cd-days-num" id="cdDays">—</span>
+    <span class="cd-days-unit">DAYS</span>
+  </div>
+
+  <div class="cd-time rev d3">
+    <div class="cd-t-blk">
+      <span class="cd-t-num" id="cdHrs">00</span>
+      <span class="cd-t-unit">HRS</span>
+    </div>
+    <span class="cd-sep">/</span>
+    <div class="cd-t-blk">
+      <span class="cd-t-num" id="cdMin">00</span>
+      <span class="cd-t-unit">MIN</span>
+    </div>
+    <span class="cd-sep">/</span>
+    <div class="cd-t-blk">
+      <span class="cd-t-num" id="cdSec">00</span>
+      <span class="cd-t-unit">SEC</span>
+    </div>
+  </div>
+</section>
+
+<div class="gdiv"></div>
+
+<!-- ═══ INVITATION ═══ -->
+<section id="invitation" class="sec">
+  <p class="s-label rev">MESSAGE</p>
+  <h2 class="s-title rev">INVITATION</h2>
+  <div class="inv-card glass rev d1">
+    <div class="inv-txt">
+      <p>謹啓　皆さまいかがお過ごしでしょうか</p>
+      <p>このたび　私たちは結婚式を挙げることになりました</p>
+      <p>つきましては　日頃の感謝をお伝えしたく<br>ささやかな披露の席を設けました</p>
+      <p>ご多用中誠に恐縮に存じますが<br>ぜひご出席いただきたくご案内申し上げます</p>
+    </div>
+    <div class="inv-rule"></div>
+    <div class="inv-sign">謹白<br>令和八年十二月吉日</div>
+  </div>
+</section>
+
+<div class="gdiv"></div>
+
+<!-- ═══ THE DAY ═══ -->
+<section id="the-day" class="sec">
+  <p class="s-label rev">SCHEDULE</p>
+  <h2 class="s-title rev">THE DAY</h2>
+  <div class="tabs rev d1">
+    <div class="tab on" data-tab="0">ご親族の皆さま</div>
+    <div class="tab" data-tab="1">ご来賓の皆さま</div>
+  </div>
+  <div class="timeline" id="tlWrap"></div>
+</section>
+
+<div class="gdiv"></div>
+
+<!-- ═══ VENUE ═══ -->
+<section id="venue" class="sec">
+  <p class="s-label rev">LOCATION</p>
+  <h2 class="s-title rev">VENUE</h2>
+  <div class="rev d1">
+    <p class="vn-en">SHINAGAWA PRINCE HOTEL</p>
+    <p class="vn-ja">品川プリンスホテル</p>
+    <p class="vn-addr">東京都港区高輪4-10-30<br>メインタワー</p>
+  </div>
+  <div class="vn-map glass rev d2">
+    <iframe
+      src="https://maps.google.com/maps?q=品川プリンスホテル&output=embed"
+      loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      title="会場地図"></iframe>
+  </div>
+  <div class="vn-deco rev d3">2026<span class="dot">.</span>12</div>
+</section>
+
+<div class="gdiv"></div>
+
+<!-- ═══ INFORMATION ═══ -->
+<section id="information" class="sec">
+  <p class="s-label rev">DETAILS</p>
+  <h2 class="s-title rev">INFORMATION</h2>
+  <div class="info-grid rev d1">
+    <a class="info-a" href="https://www.princehotels.co.jp/wedding/allergy_info/" target="_blank" rel="noopener">
+      <span class="info-a-txt">食物アレルギーへの対応について</span>
+      <span class="info-a-arr">→</span>
+    </a>
+    <a class="info-a" href="https://www.princehotels.co.jp/shinagawa/wedding/faq.html" target="_blank" rel="noopener">
+      <span class="info-a-txt">列席者美容・よくあるご質問</span>
+      <span class="info-a-arr">→</span>
+    </a>
+    <a class="info-a" href="https://www.princehotels.co.jp/shinagawa/access/" target="_blank" rel="noopener">
+      <span class="info-a-txt">アクセス・交通のご案内</span>
+      <span class="info-a-arr">→</span>
+    </a>
+    <a class="info-a" href="https://www.princehotels.co.jp/shinagawa/" target="_blank" rel="noopener">
+      <span class="info-a-txt">品川プリンスホテル 公式サイト</span>
+      <span class="info-a-arr">→</span>
+    </a>
+  </div>
+</section>
+
+<div class="gdiv"></div>
+
+<!-- ═══ MESSAGE ═══ -->
+<section id="message" class="sec">
+  <p class="s-label rev">FROM US</p>
+  <h2 class="s-title rev">MESSAGE</h2>
+  <div class="msg-cards">
+    <div class="msg-card glass rev d1" id="mgGroom">
+      <div class="msg-ph">
+        <img src="../images/LINE_ALBUM_結婚式用　写真_260816_3.jpg" alt="新郎" loading="lazy" onerror="this.parentElement.style.background='var(--glass-h)'">
+      </div>
+      <div>
+        <div class="msg-role">GROOM</div>
+        <div class="msg-name">山口 海斗</div>
+        <p class="msg-body">支えてくださった皆さまへ感謝を込めて　これからも静香さんと共に温かい家庭を築いてまいります</p>
+      </div>
+    </div>
+    <div class="msg-card glass rev d2" id="mgBride">
+      <div class="msg-ph">
+        <img src="../images/LINE_ALBUM_結婚式用　写真_260816_4.jpg" alt="新婦" loading="lazy" onerror="this.parentElement.style.background='var(--glass-h)'">
+      </div>
+      <div>
+        <div class="msg-role">BRIDE</div>
+        <div class="msg-name">門脇 静香</div>
+        <p class="msg-body">たくさんのご縁に恵まれて今日を迎えました　変わらぬお付き合いをお願いいたします</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gdiv"></div>
+
+<!-- ═══ RSVP ═══ -->
+<section id="rsvp" class="sec">
+  <p class="s-label rev">REPLY</p>
+  <h2 class="s-title ctr rev">RSVP</h2>
+  <p class="rsvp-intro rev d1">
+    お手数ではございますが<br>
+    ご出欠のお返事を <strong style="color:var(--gold)">11月10日</strong> までに<br>
+    いただけますと幸いです
+  </p>
+  <div class="glass rev d2" style="padding:28px 22px;">
+    <form class="rsvp-form" id="rsvpForm">
+      <div class="fg">
+        <label class="fl">お名前<em>*</em></label>
+        <input class="fi" type="text" name="entry.491400953" placeholder="山田 太郎" required>
+      </div>
+      <div class="fg">
+        <label class="fl">ご出欠<em>*</em></label>
+        <div class="rg">
+          <label class="rl"><input type="radio" name="entry.438600370" value="ご出席" required><span>ご出席</span></label>
+          <label class="rl"><input type="radio" name="entry.438600370" value="ご欠席"><span>ご欠席</span></label>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">ご列席の区分<em>*</em></label>
+        <div class="rg">
+          <label class="rl"><input type="radio" name="entry.541654233" value="ご親族" required><span>ご親族</span></label>
+          <label class="rl"><input type="radio" name="entry.541654233" value="ご来賓"><span>ご来賓</span></label>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">食物アレルギーの有無<em>*</em></label>
+        <div class="rg" id="algRg">
+          <label class="rl"><input type="radio" name="entry.160884009" value="なし" required><span>なし</span></label>
+          <label class="rl"><input type="radio" name="entry.160884009" value="あり"><span>あり</span></label>
+        </div>
+      </div>
+      <div class="fg fg-allergy" id="algDetail">
+        <label class="fl">アレルギーの内容</label>
+        <input class="fi" type="text" name="entry.2124801810" placeholder="例：エビ、そば">
+      </div>
+      <div class="fg">
+        <label class="fl">お祝いのメッセージ（任意）</label>
+        <textarea class="fi" name="entry.1179739245" placeholder="お気持ちをお聞かせください"></textarea>
+      </div>
+      <button class="btn-sub" type="submit"><span>SUBMIT</span></button>
+    </form>
+    <div class="rsvp-ok" id="rsvpOk">
+      <div class="rsvp-ok-ico">✦</div>
+      <p>ご回答いただきありがとうございました。<br>心よりお待ちしております。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p class="ft-names">KAITO &amp; SHIZUKA</p>
+  <p class="ft-date">12 . 12 . 2026</p>
+</footer>
+
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ── CSS PARTICLE FALLBACK ── */
+(function(){
+  var c = document.getElementById('cptcl');
+  if(!c) return;
+  for(var i=0;i<28;i++){
+    var p = document.createElement('div');
+    p.className='cpp';
+    var sz=Math.random()*3+1;
+    p.style.cssText='left:'+Math.random()*100+'%;width:'+sz+'px;height:'+sz+'px;animation-duration:'+(Math.random()*18+14)+'s;animation-delay:-'+(Math.random()*20)+'s;--dr:'+((Math.random()-.5)*80)+'px';
+    c.appendChild(p);
+  }
+})();
+
+/* ── SCROLL REVEAL ── */
+var revObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting) e.target.classList.add('on');
+  });
+},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.rev').forEach(function(el){ revObs.observe(el); });
+
+/* ── HERO SLIDESHOW ── */
+(function(){
+  var slides=document.querySelectorAll('.h-slide');
+  if(!slides.length)return;
+  var cur=0;
+  slides[0].classList.add('on');
+  setInterval(function(){
+    slides[cur].classList.remove('on');
+    cur=(cur+1)%slides.length;
+    slides[cur].classList.add('on');
+  },8000);
+})();
+
+/* ── COUNTDOWN ── */
+(function(){
+  var target=new Date('2026-12-12T16:45:00+09:00');
+  var els={d:document.getElementById('cdDays'),h:document.getElementById('cdHrs'),m:document.getElementById('cdMin'),s:document.getElementById('cdSec')};
+  var prev={};
+  function flip(el,val){
+    if(!el)return;
+    var s=String(val);
+    if(prev[el.id]===s)return;
+    prev[el.id]=s;
+    el.classList.add('flip-out');
+    setTimeout(function(){
+      el.textContent=s;
+      el.classList.remove('flip-out');
+      el.classList.add('flip-in');
+      setTimeout(function(){ el.classList.remove('flip-in'); },350);
+    },150);
+  }
+  function tick(){
+    var now=new Date();
+    var diff=Math.max(0,target-now);
+    flip(els.d,Math.floor(diff/86400000));
+    flip(els.h,String(Math.floor(diff%86400000/3600000)).padStart(2,'0'));
+    flip(els.m,String(Math.floor(diff%3600000/60000)).padStart(2,'0'));
+    flip(els.s,String(Math.floor(diff%60000/1000)).padStart(2,'0'));
+  }
+  tick();
+  setInterval(tick,1000);
+})();
+
+/* ── TIMELINE ── */
+(function(){
+  var data=[
+    {t:'15:55',ttl:'親族控室 集合',note:'メインタワー3階　お荷物は2階クロークへ'},
+    {t:'16:25',ttl:'ご来賓 挙式列席者控室',note:'挙式20分前までにメインタワー3階へ'},
+    {t:'16:45',ttl:'挙式',note:'〜 17:45'},
+    {t:'17:30',ttl:'披露宴からの方 受付',note:'メインタワー来賓控室'},
+    {t:'18:00',ttl:'披露宴',note:'〜 20:30 お開き'},
+  ];
+  var wrap=document.getElementById('tlWrap');
+  if(!wrap)return;
+  wrap.innerHTML=data.map(function(item,i){
+    return'<div class="tl-item rev'+(i===data.length-1?' tl-last':'')+'">'+
+      '<div class="tl-time">'+item.t+'</div>'+
+      '<div class="tl-mid"><div class="tl-dot"></div><div class="tl-vl"></div></div>'+
+      '<div><div class="tl-ttl">'+item.ttl+'</div><div class="tl-note">'+item.note+'</div></div>'+
+      '</div>';
+  }).join('');
+  wrap.querySelectorAll('.rev').forEach(function(el){ revObs.observe(el); });
+
+  document.querySelectorAll('#the-day .tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      document.querySelectorAll('#the-day .tab').forEach(function(t){ t.classList.remove('on'); });
+      tab.classList.add('on');
+    });
+  });
+})();
+
+/* ── NAV DOTS ── */
+(function(){
+  var dots=document.querySelectorAll('.navd-dot');
+  var ids=['hero','countdown','invitation','the-day','venue','information','message','rsvp'];
+  dots.forEach(function(dot){
+    dot.addEventListener('click',function(){
+      var el=document.getElementById(dot.dataset.t);
+      if(el) el.scrollIntoView({behavior:'smooth'});
+    });
+  });
+  var so=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var idx=ids.indexOf(e.target.id);
+        if(idx>-1) dots.forEach(function(d,i){ d.classList.toggle('on',i===idx); });
+      }
+    });
+  },{threshold:.35});
+  ids.forEach(function(id){ var el=document.getElementById(id); if(el)so.observe(el); });
+})();
+
+/* ── 3D TILT (hover-capable devices only) ── */
+if(window.matchMedia('(hover:hover)').matches){
+  document.querySelectorAll('.msg-card').forEach(function(card){
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width-.5;
+      var y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform='perspective(600px) rotateY('+(x*9)+'deg) rotateX('+(-y*9)+'deg) translateZ(6px)';
+    });
+    card.addEventListener('mouseleave',function(){
+      card.style.transform='perspective(600px) rotateY(0) rotateX(0) translateZ(0)';
+    });
+  });
+}
+
+/* ── RSVP ── */
+(function(){
+  var algRg=document.getElementById('algRg');
+  var algDetail=document.getElementById('algDetail');
+  if(algRg&&algDetail){
+    algRg.addEventListener('change',function(e){
+      algDetail.classList.toggle('show',e.target.value==='あり');
+    });
+  }
+  var form=document.getElementById('rsvpForm');
+  var ok=document.getElementById('rsvpOk');
+  if(!form||!ok)return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=form.querySelector('.btn-sub');
+    if(btn)btn.disabled=true;
+    var data=new FormData(form);
+    var ep='https://docs.google.com/forms/d/e/1FAIpQLSfpcQ87F2pSc_W6_UTqcvlBNuuY8N2yjEzmBgU0_bVzRVKuqA/formResponse';
+    fetch(ep,{method:'POST',body:data,mode:'no-cors'}).catch(function(){}).finally(function(){
+      form.style.display='none';
+      ok.classList.add('show');
+    });
+  });
+})();
+
+/* ── THREE.JS PARTICLES ── */
+window.addEventListener('load',function(){
+  var canvas=document.getElementById('bg-canvas');
+  if(!canvas||typeof THREE==='undefined')return;
+  document.getElementById('cptcl').style.display='none';
+
+  var W=window.innerWidth,H=window.innerHeight;
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,W/H,.1,100);
+  camera.position.z=6;
+
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:false});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+  renderer.setSize(W,H);
+  renderer.setClearColor(0,0);
+
+  /* Gold dust particles */
+  var N=W<600?700:1400;
+  var geo=new THREE.BufferGeometry();
+  var pos=new Float32Array(N*3);
+  for(var i=0;i<N;i++){
+    pos[i*3]=(Math.random()-.5)*22;
+    pos[i*3+1]=(Math.random()-.5)*22;
+    pos[i*3+2]=(Math.random()-.5)*12;
+  }
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  var mat=new THREE.PointsMaterial({size:.04,color:0xc8a96a,transparent:true,opacity:.55,sizeAttenuation:true});
+  var ptcl=new THREE.Points(geo,mat);
+  scene.add(ptcl);
+
+  /* White star particles */
+  var geoS=new THREE.BufferGeometry();
+  var posS=new Float32Array(180*3);
+  for(var j=0;j<180;j++){
+    posS[j*3]=(Math.random()-.5)*22;
+    posS[j*3+1]=(Math.random()-.5)*22;
+    posS[j*3+2]=(Math.random()-.5)*12;
+  }
+  geoS.setAttribute('position',new THREE.BufferAttribute(posS,3));
+  var matS=new THREE.PointsMaterial({size:.022,color:0xffffff,transparent:true,opacity:.28,sizeAttenuation:true});
+  var stars=new THREE.Points(geoS,matS);
+  scene.add(stars);
+
+  var scrollY=0,mx=0,my=0,t=0;
+  window.addEventListener('scroll',function(){ scrollY=window.scrollY; });
+  window.addEventListener('mousemove',function(e){
+    mx=(e.clientX/window.innerWidth-.5)*.4;
+    my=(e.clientY/window.innerHeight-.5)*.25;
+  });
+
+  (function animate(){
+    requestAnimationFrame(animate);
+    t+=.0004;
+    ptcl.rotation.y=t;
+    ptcl.rotation.x=t*.28;
+    stars.rotation.y=-t*.55;
+    stars.rotation.z=t*.18;
+    camera.position.x+=(mx-camera.position.x)*.04;
+    camera.position.y+=(-my-camera.position.y)*.04;
+    camera.position.z=6+scrollY*.0018;
+    renderer.render(scene,camera);
+  })();
+
+  window.addEventListener('resize',function(){
+    var W=window.innerWidth,H=window.innerHeight;
+    camera.aspect=W/H;
+    camera.updateProjectionMatrix();
+    renderer.setSize(W,H);
+  });
+});
+</script>
+</body>
+</html>

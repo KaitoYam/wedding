@@ -538,28 +538,101 @@
       font-size: 0.93rem;
       color: rgba(255,255,255,0.85);
       line-height: 1.9;
+      margin-bottom: 2rem;
     }
     .rsvp-deadline {
       color: var(--yellow);
       font-weight: 700;
       font-size: 1rem;
     }
+    .rsvp-form-card {
+      background: var(--white);
+      border-radius: 22px;
+      padding: 2rem 1.5rem;
+      text-align: left;
+      box-shadow: 0 0 0 5px var(--dark-yellow), 0 0 0 9px rgba(255,255,255,0.15);
+    }
+    .rf-group { margin-bottom: 1.4rem; }
+    .rf-label {
+      display: block;
+      font-family: 'Bangers', cursive;
+      font-size: 1rem;
+      letter-spacing: 3px;
+      color: var(--blue);
+      margin-bottom: 0.5rem;
+    }
+    .rf-required::after { content: ' ★'; color: #c0392b; font-size: 0.8rem; }
+    .rf-input {
+      width: 100%;
+      border: none;
+      border-bottom: 2px solid var(--dark-yellow);
+      padding: 8px 0;
+      font-size: 15px;
+      font-family: 'Noto Sans JP', sans-serif;
+      background: transparent;
+      outline: none;
+      color: var(--dark);
+      transition: border-color 0.2s;
+    }
+    .rf-input:focus { border-color: var(--blue); }
+    .rf-textarea {
+      width: 100%;
+      border: 2px solid var(--dark-yellow);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 14px;
+      font-family: 'Noto Sans JP', sans-serif;
+      background: transparent;
+      outline: none;
+      color: var(--dark);
+      resize: vertical;
+      min-height: 80px;
+      transition: border-color 0.2s;
+    }
+    .rf-textarea:focus { border-color: var(--blue); }
+    .rf-radios { display: flex; flex-wrap: wrap; gap: 12px; }
+    .rf-radio {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--dark);
+      cursor: pointer;
+    }
+    .rf-radio input { accent-color: var(--blue); width: 16px; height: 16px; cursor: pointer; }
+    .rf-err {
+      display: none;
+      color: #c0392b;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    .rf-err.show { display: block; }
+    .rf-allergy-detail { margin-top: 10px; }
     .rsvp-btn {
-      display: inline-block;
-      margin-top: 2rem;
+      display: block;
+      width: 100%;
+      margin-top: 1.5rem;
       background: var(--yellow);
       color: var(--blue);
       font-family: 'Bangers', cursive;
       font-size: 1.4rem;
       letter-spacing: 3px;
-      padding: 1rem 3.5rem;
+      padding: 1rem 0;
       border-radius: 50px;
-      text-decoration: none;
+      border: none;
+      cursor: pointer;
       box-shadow: 0 6px 0 var(--dark-yellow);
       transition: transform 0.1s, box-shadow 0.1s;
     }
     .rsvp-btn:hover { transform: translateY(-3px); box-shadow: 0 9px 0 var(--dark-yellow); }
     .rsvp-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 var(--dark-yellow); }
+    .rsvp-thanks {
+      display: none;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.9);
+      line-height: 2;
+      padding: 1.5rem 0;
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -747,9 +820,9 @@
 <section id="info">
   <p class="section-tag fade-in">INFORMATION</p>
   <div class="info-list fade-in">
-    <a class="info-item" href="#">食物アレルギーへの対応について <span>→</span></a>
-    <a class="info-item" href="#">列席者美容・よくあるご質問 <span>→</span></a>
-    <a class="info-item" href="#">駐車場・宿泊のご案内 <span>→</span></a>
+    <a class="info-item" href="https://www.princehotels.co.jp/wedding/allergy_info/" target="_blank" rel="noopener">食物アレルギーへの対応について <span>→</span></a>
+    <a class="info-item" href="https://www.princehotels.co.jp/shinagawa/wedding/faq.html" target="_blank" rel="noopener">列席者美容・よくあるご質問 <span>→</span></a>
+    <a class="info-item" href="https://www.princehotels.co.jp/shinagawa/access/" target="_blank" rel="noopener">駐車場・宿泊のご案内 <span>→</span></a>
   </div>
 </section>
 
@@ -763,7 +836,68 @@
       ご出欠のお返事を<br>
       <span class="rsvp-deadline">11月10日</span> までにいただけますと幸いです
     </div>
-    <a class="rsvp-btn fade-in" href="#">出欠の回答をする</a>
+
+    <div id="rsvp-form-wrap" class="fade-in">
+      <form id="rsvp-form" class="rsvp-form-card" novalidate>
+
+        <!-- Q1: お名前 -->
+        <div class="rf-group">
+          <label class="rf-label rf-required" for="rsvp-name">お名前</label>
+          <input class="rf-input" type="text" id="rsvp-name" name="entry.491400953" placeholder="山田 太郎">
+          <div class="rf-err" id="err-name">お名前をご入力ください</div>
+        </div>
+
+        <!-- Q2: ご出欠 -->
+        <div class="rf-group">
+          <span class="rf-label rf-required">ご出欠</span>
+          <div class="rf-radios">
+            <label class="rf-radio"><input type="radio" name="entry.438600370" value="ご出席"> ご出席</label>
+            <label class="rf-radio"><input type="radio" name="entry.438600370" value="ご欠席"> ご欠席</label>
+          </div>
+          <div class="rf-err" id="err-attend">ご出欠をお選びください</div>
+        </div>
+
+        <!-- Q3: ご列席の区分 -->
+        <div class="rf-group">
+          <span class="rf-label rf-required">ご列席の区分</span>
+          <div class="rf-radios">
+            <label class="rf-radio"><input type="radio" name="entry.541654233" value="ご親族"> ご親族</label>
+            <label class="rf-radio"><input type="radio" name="entry.541654233" value="ご来賓"> ご来賓</label>
+          </div>
+          <div class="rf-err" id="err-seat">ご列席の区分をお選びください</div>
+        </div>
+
+        <!-- Q4: 食物アレルギーの有無 -->
+        <div class="rf-group">
+          <span class="rf-label rf-required">食物アレルギーの有無</span>
+          <div class="rf-radios">
+            <label class="rf-radio"><input type="radio" name="entry.160884009" value="なし"> なし</label>
+            <label class="rf-radio"><input type="radio" name="entry.160884009" value="あり" id="allergy-yes"> あり</label>
+          </div>
+          <div class="rf-err" id="err-allergy">アレルギーの有無をお選びください</div>
+
+          <!-- Q5: アレルギーの内容（「あり」選択時に表示） -->
+          <div class="rf-allergy-detail" id="allergy-detail-wrap" style="display:none;">
+            <label class="rf-label rf-required" for="rsvp-allergy-detail" style="margin-top:8px;">アレルギーの内容</label>
+            <input class="rf-input" type="text" id="rsvp-allergy-detail" name="entry.2124801810" placeholder="例：えび、そば、落花生">
+            <div class="rf-err" id="err-allergy-detail">アレルギーの内容をご記入ください</div>
+          </div>
+        </div>
+
+        <!-- Q6: お祝いのメッセージ -->
+        <div class="rf-group">
+          <label class="rf-label" for="rsvp-message">お祝いのメッセージ（任意）</label>
+          <textarea class="rf-textarea" id="rsvp-message" name="entry.1179739245" placeholder="お二人へのメッセージをどうぞ 🍌"></textarea>
+        </div>
+
+        <button type="submit" class="rsvp-btn">🍌 送信する 🍌</button>
+      </form>
+    </div>
+
+    <div class="rsvp-thanks" id="rsvp-thanks">
+      🍌 ご回答いただきありがとうございました！<br>
+      心よりお待ちしております 🍌
+    </div>
   </div>
 </section>
 
@@ -823,6 +957,54 @@
     b.style.fontSize = (1.2 + Math.random() * 1.4) + 'rem';
     container.appendChild(b);
   }
+
+  /* ── アレルギー「あり」で詳細欄を表示 ── */
+  document.querySelectorAll('input[name="entry.160884009"]').forEach(function(el) {
+    el.addEventListener('change', function() {
+      document.getElementById('allergy-detail-wrap').style.display =
+        this.value === 'あり' ? 'block' : 'none';
+    });
+  });
+
+  /* ── RSVPフォーム送信 ── */
+  document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var name    = document.getElementById('rsvp-name').value.trim();
+    var attend  = document.querySelector('input[name="entry.438600370"]:checked');
+    var seat    = document.querySelector('input[name="entry.541654233"]:checked');
+    var allergy = document.querySelector('input[name="entry.160884009"]:checked');
+    var detail  = document.getElementById('rsvp-allergy-detail').value.trim();
+    var ok = true;
+
+    ['err-name','err-attend','err-seat','err-allergy','err-allergy-detail'].forEach(function(id) {
+      document.getElementById(id).classList.remove('show');
+    });
+
+    if (!name)    { document.getElementById('err-name').classList.add('show');    ok = false; }
+    if (!attend)  { document.getElementById('err-attend').classList.add('show');  ok = false; }
+    if (!seat)    { document.getElementById('err-seat').classList.add('show');    ok = false; }
+    if (!allergy) { document.getElementById('err-allergy').classList.add('show'); ok = false; }
+    if (allergy && allergy.value === 'あり' && !detail) {
+      document.getElementById('err-allergy-detail').classList.add('show'); ok = false;
+    }
+    if (!ok) return;
+
+    var data = new FormData(this);
+    data.set('entry.491400953', name);
+
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSfpcQ87F2pSc_W6_UTqcvlBNuuY8N2yjEzmBgU0_bVzRVKuqA/formResponse', {
+      method: 'POST',
+      mode: 'no-cors',
+      body: data
+    }).then(function() {
+      document.getElementById('rsvp-form-wrap').style.display = 'none';
+      document.getElementById('rsvp-thanks').style.display = 'block';
+    }).catch(function() {
+      document.getElementById('rsvp-form-wrap').style.display = 'none';
+      document.getElementById('rsvp-thanks').style.display = 'block';
+    });
+  });
 </script>
 </body>
 </html>
