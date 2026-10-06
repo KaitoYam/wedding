@@ -562,12 +562,31 @@ document.addEventListener('submit',function(e){
   function update() {
     var vh = window.innerHeight;
     for (var i = 0; i < slots.length; i++) {
-      var rect = slots[i].getBoundingClientRect();
-      var p = -rect.top / (rect.height - vh);
+      var sr = slots[i].getBoundingClientRect();
+      var slotH = slots[i].offsetHeight;
+      var p = -sr.top / (slotH - vh);
       p = Math.max(0, Math.min(1, p));
+
       var t = scaleT(p);
       var scale = (0.62 + 0.38 * t).toFixed(3);
       var opacity = (0.4 + 0.6 * t).toFixed(3);
+
+      var active = sr.top < vh && sr.bottom > 0;
+
+      if (active) {
+        cards[i].style.position = 'fixed';
+        cards[i].style.top = Math.round(vh * 0.13) + 'px';
+        cards[i].style.left = sr.left + 'px';
+        cards[i].style.width = sr.width + 'px';
+        cards[i].style.zIndex = Math.round(t * 10) + 1;
+      } else {
+        cards[i].style.position = '';
+        cards[i].style.top = '';
+        cards[i].style.left = '';
+        cards[i].style.width = '';
+        cards[i].style.zIndex = '';
+      }
+
       cards[i].style.transform = 'scale(' + scale + ')';
       cards[i].style.opacity = opacity;
     }
@@ -586,8 +605,6 @@ document.addEventListener('submit',function(e){
       slot.appendChild(card);
       slots.push(slot);
 
-      card.style.position = 'sticky';
-      card.style.top = '12%';
       card.style.marginBottom = '0';
       card.style.transformOrigin = 'center';
       card.style.transition = 'transform 0.25s ease-out, opacity 0.25s ease-out';
