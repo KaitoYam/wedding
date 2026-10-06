@@ -487,14 +487,21 @@ document.addEventListener('submit',function(e){
 <script>
 (function() {
   var cards = [];
+  var slots = [];
+
+  function scaleT(p) {
+    if (p < 0.18) return p / 0.18;
+    if (p > 0.82) return (1 - p) / 0.18;
+    return 1;
+  }
 
   function update() {
     var vh = window.innerHeight;
-    for (var i = 0; i < cards.length; i++) {
-      var rect = cards[i].getBoundingClientRect();
-      var center = rect.top + rect.height / 2;
-      var dist = Math.abs(center - vh / 2);
-      var t = Math.max(0, Math.min(1, 1 - dist / (vh * 0.55)));
+    for (var i = 0; i < slots.length; i++) {
+      var rect = slots[i].getBoundingClientRect();
+      var p = -rect.top / (rect.height - vh);
+      p = Math.max(0, Math.min(1, p));
+      var t = scaleT(p);
       var scale = (0.62 + 0.38 * t).toFixed(3);
       var opacity = (0.4 + 0.6 * t).toFixed(3);
       cards[i].style.transform = 'scale(' + scale + ')';
@@ -505,14 +512,26 @@ document.addEventListener('submit',function(e){
   function init() {
     var imgs = document.querySelectorAll('img[src*="message_yama"], img[src*="message_kadowaki"], img[src*="message_watage"]');
     if (imgs.length < 3) { setTimeout(init, 100); return; }
+
     cards = Array.from(imgs).map(function(img) { return img.parentElement.parentElement; });
+
     cards.forEach(function(card) {
-      card.style.transformOrigin = 'top center';
-      card.style.transition = 'transform 0.2s ease-out, opacity 0.2s ease-out';
-      // Disable CSS animation on photo div
+      var slot = document.createElement('div');
+      slot.style.cssText = 'position:relative;height:210vh;';
+      card.parentNode.insertBefore(slot, card);
+      slot.appendChild(card);
+      slots.push(slot);
+
+      card.style.position = 'sticky';
+      card.style.top = '12%';
+      card.style.marginBottom = '0';
+      card.style.transformOrigin = 'center';
+      card.style.transition = 'transform 0.25s ease-out, opacity 0.25s ease-out';
+
       var photoDiv = card.querySelector('[style*="aspect-ratio"]');
       if (photoDiv) photoDiv.style.animationName = 'none';
     });
+
     window.addEventListener('scroll', update, {passive: true});
     update();
   }
