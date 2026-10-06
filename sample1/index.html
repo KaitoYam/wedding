@@ -483,5 +483,45 @@ document.addEventListener('submit',function(e){
   });
 })();
 </script>
+
+<script>
+(function() {
+  var photoDivs = [];
+
+  function update() {
+    var vh = window.innerHeight;
+    for (var i = 0; i < photoDivs.length; i++) {
+      var rect = photoDivs[i].getBoundingClientRect();
+      var center = rect.top + rect.height / 2;
+      var dist = Math.abs(center - vh / 2);
+      var t = Math.max(0, Math.min(1, 1 - dist / (vh * 0.65)));
+      var scale = (0.82 + 0.18 * t).toFixed(3);
+      var opacity = (0.6 + 0.4 * t).toFixed(3);
+      photoDivs[i].style.transform = 'scale(' + scale + ')';
+      photoDivs[i].style.opacity = opacity;
+    }
+  }
+
+  function init() {
+    // Find by image children since React may expand style shorthand
+    var imgs = document.querySelectorAll('img[src*="message-yamaguchi"], img[src*="message_kadowaki"], img[src*="message_watage"]');
+    if (imgs.length < 3) { setTimeout(init, 100); return; }
+    photoDivs = Array.from(imgs).map(function(img) { return img.parentElement; });
+    photoDivs.forEach(function(div) {
+      div.style.animationName = 'none';
+      div.style.transformOrigin = 'top center';
+      div.style.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out';
+    });
+    window.addEventListener('scroll', update, {passive: true});
+    update();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(init, 300); });
+  } else {
+    setTimeout(init, 300);
+  }
+})();
+</script>
 </body>
 </html>
