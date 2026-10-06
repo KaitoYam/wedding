@@ -486,31 +486,32 @@ document.addEventListener('submit',function(e){
 
 <script>
 (function() {
-  var photoDivs = [];
+  var cards = [];
 
   function update() {
     var vh = window.innerHeight;
-    for (var i = 0; i < photoDivs.length; i++) {
-      var rect = photoDivs[i].getBoundingClientRect();
+    for (var i = 0; i < cards.length; i++) {
+      var rect = cards[i].getBoundingClientRect();
       var center = rect.top + rect.height / 2;
       var dist = Math.abs(center - vh / 2);
-      var t = Math.max(0, Math.min(1, 1 - dist / (vh * 0.65)));
-      var scale = (0.82 + 0.18 * t).toFixed(3);
-      var opacity = (0.6 + 0.4 * t).toFixed(3);
-      photoDivs[i].style.transform = 'scale(' + scale + ')';
-      photoDivs[i].style.opacity = opacity;
+      var t = Math.max(0, Math.min(1, 1 - dist / (vh * 0.55)));
+      var scale = (0.62 + 0.38 * t).toFixed(3);
+      var opacity = (0.4 + 0.6 * t).toFixed(3);
+      cards[i].style.transform = 'scale(' + scale + ')';
+      cards[i].style.opacity = opacity;
     }
   }
 
   function init() {
-    // Find by image children since React may expand style shorthand
-    var imgs = document.querySelectorAll('img[src*="message-yamaguchi"], img[src*="message_kadowaki"], img[src*="message_watage"]');
+    var imgs = document.querySelectorAll('img[src*="message_yama"], img[src*="message_kadowaki"], img[src*="message_watage"]');
     if (imgs.length < 3) { setTimeout(init, 100); return; }
-    photoDivs = Array.from(imgs).map(function(img) { return img.parentElement; });
-    photoDivs.forEach(function(div) {
-      div.style.animationName = 'none';
-      div.style.transformOrigin = 'top center';
-      div.style.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out';
+    cards = Array.from(imgs).map(function(img) { return img.parentElement.parentElement; });
+    cards.forEach(function(card) {
+      card.style.transformOrigin = 'top center';
+      card.style.transition = 'transform 0.2s ease-out, opacity 0.2s ease-out';
+      // Disable CSS animation on photo div
+      var photoDiv = card.querySelector('[style*="aspect-ratio"]');
+      if (photoDiv) photoDiv.style.animationName = 'none';
     });
     window.addEventListener('scroll', update, {passive: true});
     update();
