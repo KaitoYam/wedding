@@ -655,6 +655,18 @@ document.addEventListener('submit',function(e){
     var imgs = document.querySelectorAll('img[src*="message_yama"], img[src*="message_kadowaki"], img[src*="message_watage"]');
     if (imgs.length < 3) { setTimeout(init, 100); return; }
 
+    // 親族用: アニメーションなし・全写真を常時表示
+    if (window.location.search.indexOf('shinzoku') !== -1) {
+      Array.from(imgs).forEach(function(img) {
+        var card = img.parentElement.parentElement;
+        card.style.opacity = '1';
+        card.style.transform = 'none';
+        var photoDiv = card.querySelector('[style*="aspect-ratio"]');
+        if (photoDiv) photoDiv.style.animationName = 'none';
+      });
+      return;
+    }
+
     cards = Array.from(imgs).map(function(img) { return img.parentElement.parentElement; });
 
     cards.forEach(function(card) {
@@ -707,6 +719,9 @@ document.addEventListener('submit',function(e){
       return;
     }
     tabBtn.click();
+
+    // タブUIを非表示（URLで区分が決まるため不要）
+    if (tabBtn.parentElement) tabBtn.parentElement.style.display = 'none';
 
     // Pre-select the 列席区分 radio button
     var radios = document.querySelectorAll('input[name="entry.541654233"]');
