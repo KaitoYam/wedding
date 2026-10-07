@@ -584,72 +584,15 @@ document.addEventListener('submit',function(e){
 
 <script>
 (function() {
-  var cards = [];
-  var slots = [];
-  var mapEl = null;
-
-  function easeInOut(x) {
-    return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
-  }
-
-  function scaleT(p) {
-    if (p < 0.07) return easeInOut(p / 0.07);
-    if (p > 0.93) return easeInOut((1 - p) / 0.07);
-    return 1;
-  }
-
-  function update() {
-    var vh = window.innerHeight;
-    for (var i = 0; i < slots.length; i++) {
-      var sr = slots[i].getBoundingClientRect();
-      var slotH = slots[i].offsetHeight;
-      var p = -sr.top / (slotH - vh);
-      p = Math.max(0, Math.min(1, p));
-
-      var t = scaleT(p);
-      var scale = (0.62 + 0.18 * t).toFixed(3);
-      var opacity = t.toFixed(3);
-
-      var active = sr.top < vh && sr.bottom > 0;
-      var cardTop = vh * 0.08;
-      var mapOverlap = mapEl && mapEl.getBoundingClientRect().bottom > cardTop;
-
-      if (active && !mapOverlap) {
-        cards[i].style.position = 'fixed';
-        cards[i].style.top = Math.round(cardTop) + 'px';
-        cards[i].style.left = sr.left + 'px';
-        cards[i].style.width = sr.width + 'px';
-        cards[i].style.zIndex = Math.round(t * 10) + 1;
-      } else {
-        cards[i].style.position = '';
-        cards[i].style.top = '';
-        cards[i].style.left = '';
-        cards[i].style.width = '';
-        cards[i].style.zIndex = '';
-        if (sr.bottom <= 0 || mapOverlap) opacity = '0';
-      }
-
-      cards[i].style.transform = 'scale(' + scale + ')';
-      cards[i].style.opacity = opacity;
-    }
-  }
-
-  var ticking = false;
-  function onScroll() {
-    if (!ticking) {
-      requestAnimationFrame(function() { update(); ticking = false; });
-      ticking = true;
-    }
-  }
-
   function init() {
     var imgs = document.querySelectorAll('img[src*="message_yama"], img[src*="message_kadowaki"], img[src*="message_watage"]');
     if (imgs.length < 3) { setTimeout(init, 100); return; }
 
+    var cards = Array.from(imgs).map(function(img) { return img.parentElement.parentElement; });
+
     // 親族用: アニメーションなし・全写真を常時表示
     if (window.location.search.indexOf('shinzoku') !== -1) {
-      Array.from(imgs).forEach(function(img) {
-        var card = img.parentElement.parentElement;
+      cards.forEach(function(card) {
         card.style.opacity = '1';
         card.style.transform = 'none';
         var photoDiv = card.querySelector('[style*="aspect-ratio"]');
@@ -658,26 +601,25 @@ document.addEventListener('submit',function(e){
       return;
     }
 
-    cards = Array.from(imgs).map(function(img) { return img.parentElement.parentElement; });
-
     cards.forEach(function(card) {
-      var slot = document.createElement('div');
-      slot.style.cssText = 'position:relative;height:210vh;';
-      card.parentNode.insertBefore(slot, card);
-      slot.appendChild(card);
-      slots.push(slot);
-
-      card.style.marginBottom = '0';
-      card.style.transformOrigin = 'center';
-      card.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
-
       var photoDiv = card.querySelector('[style*="aspect-ratio"]');
       if (photoDiv) photoDiv.style.animationName = 'none';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
     });
 
-    mapEl = document.querySelector('iframe[src*="maps"]');
-    window.addEventListener('scroll', onScroll, {passive: true});
-    update();
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    cards.forEach(function(card) { observer.observe(card); });
   }
 
   if (document.readyState === 'loading') {
