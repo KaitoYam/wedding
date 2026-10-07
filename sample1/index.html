@@ -31,45 +31,85 @@
       '#wg-intro.wg-out{opacity:0;pointer-events:none;}',
       '#wg-env-wrap{position:relative;animation:wgEnvIn 0.65s cubic-bezier(0.34,1.56,0.64,1) 0.15s both;}',
       '@keyframes wgEnvIn{from{transform:translateY(-24px) scale(0.86);opacity:0;}to{transform:translateY(0) scale(1);opacity:1;}}',
-      '#wg-seal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;background:radial-gradient(circle at 36% 34%,#d9b45a,#8c6120);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.45),inset 0 1px 4px rgba(255,255,255,0.22);animation:wgSealPop 0.55s cubic-bezier(0.175,0.885,0.32,1.275) 0.72s both;}',
+      '#wg-seal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:wgSealPop 0.55s cubic-bezier(0.175,0.885,0.32,1.275) 0.72s both;}',
       '@keyframes wgSealPop{from{transform:translate(-50%,-50%) scale(0) rotate(-18deg);}to{transform:translate(-50%,-50%) scale(1) rotate(0deg);}}',
       '#wg-text{margin-top:26px;font-family:"Shippori Mincho B1",serif;font-size:13px;color:rgba(240,236,228,0.6);letter-spacing:0.4em;animation:wgTextIn 0.6s ease 1.15s both;}',
       '@keyframes wgTextIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}'
     ].join('');
 
-    var chinchilla = '<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">'
-      + '<circle cx="12" cy="14" r="9" fill="#f5eddb"/><circle cx="12" cy="14" r="5.5" fill="#c9956a"/>'
-      + '<circle cx="36" cy="14" r="9" fill="#f5eddb"/><circle cx="36" cy="14" r="5.5" fill="#c9956a"/>'
-      + '<circle cx="24" cy="29" r="16" fill="#f5eddb"/>'
-      + '<circle cx="18.5" cy="27" r="3" fill="#241810"/><circle cx="29.5" cy="27" r="3" fill="#241810"/>'
-      + '<circle cx="19.8" cy="25.8" r="1.1" fill="white"/><circle cx="30.8" cy="25.8" r="1.1" fill="white"/>'
-      + '<ellipse cx="24" cy="32" rx="2.6" ry="2.1" fill="#c08878"/>'
-      + '<path d="M21 34.5 Q24 37 27 34.5" stroke="#c08878" stroke-width="1.1" fill="none" stroke-linecap="round"/>'
-      + '<line x1="5" y1="31" x2="18" y2="31.5" stroke="#d0bc90" stroke-width="0.9" opacity="0.65"/>'
-      + '<line x1="5" y1="33.5" x2="18" y2="33" stroke="#d0bc90" stroke-width="0.9" opacity="0.65"/>'
-      + '<line x1="30" y1="31.5" x2="43" y2="31" stroke="#d0bc90" stroke-width="0.9" opacity="0.65"/>'
-      + '<line x1="30" y1="33" x2="43" y2="33.5" stroke="#d0bc90" stroke-width="0.9" opacity="0.65"/>'
+    // Hand-drawn wax seal with chinchilla ink sketch
+    var sealSvg = '<svg id="wg-seal" width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">'
+      + '<defs>'
+      + '<filter id="wgrf" x="-10%" y="-10%" width="120%" height="120%">'
+      + '<feTurbulence type="fractalNoise" baseFrequency="0.042" numOctaves="4" seed="7" result="n"/>'
+      + '<feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>'
+      + '</filter>'
+      + '</defs>'
+      // Wax seal layers — rough amber circle
+      + '<circle cx="45" cy="45" r="42" fill="#9e7018" filter="url(#wgrf)"/>'
+      + '<circle cx="45" cy="45" r="38" fill="#c49030" filter="url(#wgrf)"/>'
+      + '<circle cx="45" cy="45" r="34" fill="#d4a238" filter="url(#wgrf)"/>'
+      // Decorative dashed inner ring (hand-stamped feel)
+      + '<circle cx="45" cy="45" r="30" fill="none" stroke="#7a520c" stroke-width="1.3" stroke-dasharray="2.5,2.5" filter="url(#wgrf)"/>'
+      // — Chinchilla ink sketch —
+      // Left ear outline + inner pink
+      + '<ellipse cx="30" cy="23" rx="8.5" ry="10" fill="#f4e8d0" stroke="#4a2c08" stroke-width="1.3"/>'
+      + '<ellipse cx="30" cy="24.5" rx="4.5" ry="5.5" fill="#d49898" opacity="0.8"/>'
+      // Right ear outline + inner pink
+      + '<ellipse cx="60" cy="23" rx="8.5" ry="10" fill="#f4e8d0" stroke="#4a2c08" stroke-width="1.3"/>'
+      + '<ellipse cx="60" cy="24.5" rx="4.5" ry="5.5" fill="#d49898" opacity="0.8"/>'
+      // Head (rounded, cream fill, ink stroke)
+      + '<ellipse cx="45" cy="50" rx="20" ry="19" fill="#f4e8d0" stroke="#4a2c08" stroke-width="1.5"/>'
+      // Eyes — ink dots with white shine
+      + '<circle cx="37.5" cy="46" r="3.6" fill="#2a1608"/>'
+      + '<circle cx="52.5" cy="46" r="3.6" fill="#2a1608"/>'
+      + '<circle cx="38.8" cy="44.7" r="1.2" fill="white"/>'
+      + '<circle cx="53.8" cy="44.7" r="1.2" fill="white"/>'
+      // Nose (small heart shape)
+      + '<path d="M42.5 52 Q45 50.5 47.5 52 Q45 54.5 42.5 52 Z" fill="#c07878"/>'
+      // Mouth
+      + '<path d="M40.5 54 Q45 57.5 49.5 54" stroke="#c07878" stroke-width="1.1" fill="none" stroke-linecap="round"/>'
+      // Whiskers left (gentle curves)
+      + '<path d="M13,46 Q27,46.5 35.5,46" stroke="#9b7848" stroke-width="1" opacity="0.65" fill="none"/>'
+      + '<path d="M13,49.5 Q27,49 35.5,49" stroke="#9b7848" stroke-width="1" opacity="0.65" fill="none"/>'
+      // Whiskers right
+      + '<path d="M54.5,46 Q63,46.5 77,46" stroke="#9b7848" stroke-width="1" opacity="0.65" fill="none"/>'
+      + '<path d="M54.5,49 Q63,49 77,49.5" stroke="#9b7848" stroke-width="1" opacity="0.65" fill="none"/>'
       + '</svg>';
 
+    // Pen-sketch style envelope with hand-drawn edges
     var envelopeSvg = '<svg width="240" height="170" viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg">'
-      + '<rect width="240" height="170" rx="5" fill="#f0e8d4"/>'
-      + '<polygon points="0,0 120,85 0,170" fill="#e6dcc3"/>'
-      + '<polygon points="240,0 120,85 240,170" fill="#e6dcc3"/>'
-      + '<polygon points="0,0 240,0 120,85" fill="#ede3cf"/>'
-      + '<polygon points="0,170 240,170 120,85" fill="#e8deca"/>'
-      + '<line x1="0" y1="0" x2="120" y2="85" stroke="#c4a86a" stroke-width="0.7" opacity="0.45"/>'
-      + '<line x1="240" y1="0" x2="120" y2="85" stroke="#c4a86a" stroke-width="0.7" opacity="0.45"/>'
-      + '<line x1="0" y1="170" x2="120" y2="85" stroke="#c4a86a" stroke-width="0.7" opacity="0.45"/>'
-      + '<line x1="240" y1="170" x2="120" y2="85" stroke="#c4a86a" stroke-width="0.7" opacity="0.45"/>'
-      + '<rect x="0.5" y="0.5" width="239" height="169" rx="5" fill="none" stroke="#c4a86a" stroke-width="1" opacity="0.5"/>'
-      + '<text x="120" y="133" text-anchor="middle" font-family="Georgia,\'Cormorant Garamond\',serif" font-size="9.5" fill="#7a5418" opacity="0.82" letter-spacing="1.8">KAITO &amp; SHIZUKA</text>'
-      + '<text x="120" y="148" text-anchor="middle" font-family="Georgia,\'Cormorant Garamond\',serif" font-size="9" fill="#7a5418" opacity="0.7" letter-spacing="2.5">2026 · 12 · 12</text>'
-      + '<text x="120" y="162" text-anchor="middle" font-family="\'Noto Sans JP\',sans-serif" font-size="7.5" fill="#7a5418" opacity="0.58" letter-spacing="1">品川プリンスホテル</text>'
+      + '<defs>'
+      + '<filter id="wgef" x="-4%" y="-4%" width="108%" height="108%">'
+      + '<feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="5" result="n"/>'
+      + '<feDisplacementMap in="SourceGraphic" in2="n" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>'
+      + '</filter>'
+      + '</defs>'
+      // Aged paper background
+      + '<rect x="1" y="1" width="238" height="168" rx="3" fill="#f5edd8"/>'
+      // Flap fills (slightly different tones)
+      + '<polygon points="1,1 120,86 1,169" fill="#e8dcc0"/>'
+      + '<polygon points="239,1 120,86 239,169" fill="#e8dcc0"/>'
+      + '<polygon points="1,169 239,169 120,86" fill="#ece0c8"/>'
+      + '<polygon points="1,1 239,1 120,86" fill="#f0e4ce"/>'
+      // Hand-drawn outer border (ink, slightly wobbly)
+      + '<rect x="1" y="1" width="238" height="168" rx="3" fill="none" stroke="#5c3d1a" stroke-width="1.6" filter="url(#wgef)"/>'
+      // Fold lines
+      + '<line x1="1" y1="1" x2="120" y2="86" stroke="#5c3d1a" stroke-width="1" opacity="0.38" filter="url(#wgef)"/>'
+      + '<line x1="239" y1="1" x2="120" y2="86" stroke="#5c3d1a" stroke-width="1" opacity="0.38" filter="url(#wgef)"/>'
+      + '<line x1="1" y1="169" x2="120" y2="86" stroke="#5c3d1a" stroke-width="0.9" opacity="0.28" filter="url(#wgef)"/>'
+      + '<line x1="239" y1="169" x2="120" y2="86" stroke="#5c3d1a" stroke-width="0.9" opacity="0.28" filter="url(#wgef)"/>'
+      // Decorative postage stamp box (top-right)
+      + '<rect x="195" y="8" width="35" height="25" rx="1" fill="none" stroke="#5c3d1a" stroke-width="0.9" opacity="0.32" filter="url(#wgef)"/>'
+      // Text
+      + '<text x="120" y="133" text-anchor="middle" font-family="Georgia,\'Cormorant Garamond\',serif" font-size="9.5" fill="#5c3d1a" opacity="0.78" letter-spacing="1.8">KAITO &amp; SHIZUKA</text>'
+      + '<text x="120" y="148" text-anchor="middle" font-family="Georgia,\'Cormorant Garamond\',serif" font-size="9" fill="#5c3d1a" opacity="0.65" letter-spacing="2.5">2026 · 12 · 12</text>'
+      + '<text x="120" y="162" text-anchor="middle" font-family="\'Noto Sans JP\',sans-serif" font-size="7.5" fill="#5c3d1a" opacity="0.5" letter-spacing="1">品川プリンスホテル</text>'
       + '</svg>';
 
     var s = document.createElement('style'); s.textContent = css;
     var div = document.createElement('div'); div.id = 'wg-intro';
-    div.innerHTML = '<div id="wg-env-wrap">' + envelopeSvg + '<div id="wg-seal">' + chinchilla + '</div></div>'
+    div.innerHTML = '<div id="wg-env-wrap">' + envelopeSvg + sealSvg + '</div>'
                   + '<div id="wg-text">わたげのお便り</div>';
     document.head.appendChild(s);
     document.body.appendChild(div);
