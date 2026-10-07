@@ -562,8 +562,8 @@ document.addEventListener('submit',function(e){
   }
 
   function scaleT(p) {
-    if (p < 0.12) return easeInOut(p / 0.12);
-    if (p > 0.88) return easeInOut((1 - p) / 0.12);
+    if (p < 0.07) return easeInOut(p / 0.07);
+    if (p > 0.93) return easeInOut((1 - p) / 0.07);
     return 1;
   }
 
@@ -626,7 +626,7 @@ document.addEventListener('submit',function(e){
 
       card.style.marginBottom = '0';
       card.style.transformOrigin = 'center';
-      card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+      card.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
 
       var photoDiv = card.querySelector('[style*="aspect-ratio"]');
       if (photoDiv) photoDiv.style.animationName = 'none';
