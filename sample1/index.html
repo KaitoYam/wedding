@@ -685,5 +685,47 @@ document.addEventListener('submit',function(e){
 })();
 </script>
 
+<script>
+(function() {
+  var qs = window.location.search;
+  var isRaiin    = qs.indexOf('raiin')    !== -1;
+  var isShinzoku = qs.indexOf('shinzoku') !== -1;
+  if (!isRaiin && !isShinzoku) return;
+
+  var tabText  = isRaiin ? 'ご来賓の皆さま' : 'ご親族の皆さま';
+  var radioVal = isRaiin ? 'ご来賓'         : 'ご親族';
+
+  function apply(retries) {
+    // Click the correct tab button
+    var buttons = document.querySelectorAll('button');
+    var tabBtn = null;
+    for (var i = 0; i < buttons.length; i++) {
+      if (buttons[i].textContent.trim() === tabText) { tabBtn = buttons[i]; break; }
+    }
+    if (!tabBtn) {
+      if (retries > 0) setTimeout(function() { apply(retries - 1); }, 200);
+      return;
+    }
+    tabBtn.click();
+
+    // Pre-select the 列席区分 radio button
+    var radios = document.querySelectorAll('input[name="entry.541654233"]');
+    for (var j = 0; j < radios.length; j++) {
+      if (radios[j].value === radioVal) {
+        radios[j].checked = true;
+        radios[j].dispatchEvent(new Event('change', { bubbles: true }));
+        break;
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(function() { apply(15); }, 400); });
+  } else {
+    setTimeout(function() { apply(15); }, 400);
+  }
+})();
+</script>
+
 </body>
 </html>
