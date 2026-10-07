@@ -555,6 +555,7 @@ document.addEventListener('submit',function(e){
 (function() {
   var cards = [];
   var slots = [];
+  var mapEl = null;
 
   function easeInOut(x) {
     return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
@@ -579,10 +580,12 @@ document.addEventListener('submit',function(e){
       var opacity = t.toFixed(3);
 
       var active = sr.top < vh && sr.bottom > 0;
+      var cardTop = vh * 0.13;
+      var mapOverlap = mapEl && mapEl.getBoundingClientRect().bottom > cardTop;
 
-      if (active) {
+      if (active && !mapOverlap) {
         cards[i].style.position = 'fixed';
-        cards[i].style.top = Math.round(vh * 0.13) + 'px';
+        cards[i].style.top = Math.round(cardTop) + 'px';
         cards[i].style.left = sr.left + 'px';
         cards[i].style.width = sr.width + 'px';
         cards[i].style.zIndex = Math.round(t * 10) + 1;
@@ -592,7 +595,7 @@ document.addEventListener('submit',function(e){
         cards[i].style.left = '';
         cards[i].style.width = '';
         cards[i].style.zIndex = '';
-        if (sr.bottom <= 0) opacity = '0';
+        if (sr.bottom <= 0 || mapOverlap) opacity = '0';
       }
 
       cards[i].style.transform = 'scale(' + scale + ')';
@@ -629,6 +632,7 @@ document.addEventListener('submit',function(e){
       if (photoDiv) photoDiv.style.animationName = 'none';
     });
 
+    mapEl = document.querySelector('iframe[src*="maps"]');
     window.addEventListener('scroll', onScroll, {passive: true});
     update();
   }
