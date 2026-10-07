@@ -702,13 +702,12 @@ document.addEventListener('submit',function(e){
   var qs = window.location.search;
   var isRaiin    = qs.indexOf('raiin')    !== -1;
   var isShinzoku = qs.indexOf('shinzoku') !== -1;
-  if (!isRaiin && !isShinzoku) return;
 
-  var tabText  = isRaiin ? 'ご来賓の皆さま' : 'ご親族の皆さま';
-  var radioVal = isRaiin ? 'ご来賓'         : 'ご親族';
+  // デフォルト（パラメータなし）は来賓扱い
+  var tabText  = isShinzoku ? 'ご親族の皆さま' : 'ご来賓の皆さま';
+  var radioVal = isShinzoku ? 'ご親族'         : 'ご来賓';
 
   function apply(retries) {
-    // Click the correct tab button
     var buttons = document.querySelectorAll('button');
     var tabBtn = null;
     for (var i = 0; i < buttons.length; i++) {
@@ -720,16 +719,18 @@ document.addEventListener('submit',function(e){
     }
     tabBtn.click();
 
-    // タブUIを非表示（URLで区分が決まるため不要）
+    // 常にタブUIを非表示（来賓ページに親族向け案内を表示させない）
     if (tabBtn.parentElement) tabBtn.parentElement.style.display = 'none';
 
-    // Pre-select the 列席区分 radio button
-    var radios = document.querySelectorAll('input[name="entry.541654233"]');
-    for (var j = 0; j < radios.length; j++) {
-      if (radios[j].value === radioVal) {
-        radios[j].checked = true;
-        radios[j].dispatchEvent(new Event('change', { bubbles: true }));
-        break;
+    // パラメータありの場合のみ列席区分を自動選択
+    if (isRaiin || isShinzoku) {
+      var radios = document.querySelectorAll('input[name="entry.541654233"]');
+      for (var j = 0; j < radios.length; j++) {
+        if (radios[j].value === radioVal) {
+          radios[j].checked = true;
+          radios[j].dispatchEvent(new Event('change', { bubbles: true }));
+          break;
+        }
       }
     }
 
