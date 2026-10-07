@@ -33,11 +33,10 @@
       '@keyframes wgEnvIn{from{transform:translateY(-24px) scale(0.86);opacity:0;}to{transform:translateY(0) scale(1);opacity:1;}}',
       '#wg-seal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:wgSealPop 0.55s cubic-bezier(0.175,0.885,0.32,1.275) 0.72s both;}',
       '@keyframes wgSealPop{from{transform:translate(-50%,-50%) scale(0) rotate(-18deg);}to{transform:translate(-50%,-50%) scale(1) rotate(0deg);}}',
-      '#wg-text{margin-top:26px;font-family:"Shippori Mincho B1",serif;font-size:13px;color:rgba(240,236,228,0.6);letter-spacing:0.4em;animation:wgTextIn 0.6s ease 1.15s both;}',
-      '@keyframes wgTextIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}'
+      ''
     ].join('');
 
-    // Hand-drawn wax seal with chinchilla ink sketch
+    // Classic wine-red wax seal
     var sealSvg = '<svg id="wg-seal" width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">'
       + '<defs>'
       + '<filter id="wgrf" x="-10%" y="-10%" width="120%" height="120%">'
@@ -45,36 +44,21 @@
       + '<feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>'
       + '</filter>'
       + '</defs>'
-      // Wax seal layers — rough amber circle
-      + '<circle cx="45" cy="45" r="42" fill="#9e7018" filter="url(#wgrf)"/>'
-      + '<circle cx="45" cy="45" r="38" fill="#c49030" filter="url(#wgrf)"/>'
-      + '<circle cx="45" cy="45" r="34" fill="#d4a238" filter="url(#wgrf)"/>'
-      // Decorative dashed inner ring (hand-stamped feel)
-      + '<circle cx="45" cy="45" r="30" fill="none" stroke="#7a520c" stroke-width="1.3" stroke-dasharray="2.5,2.5" filter="url(#wgrf)"/>'
-      // — Chinchilla ink sketch —
-      // Left ear outline + inner pink
-      + '<ellipse cx="30" cy="23" rx="8.5" ry="10" fill="#f4e8d0" stroke="#4a2c08" stroke-width="1.3"/>'
-      + '<ellipse cx="30" cy="24.5" rx="4.5" ry="5.5" fill="#d49898" opacity="0.8"/>'
-      // Right ear outline + inner pink
-      + '<ellipse cx="60" cy="23" rx="8.5" ry="10" fill="#f4e8d0" stroke="#4a2c08" stroke-width="1.3"/>'
-      + '<ellipse cx="60" cy="24.5" rx="4.5" ry="5.5" fill="#d49898" opacity="0.8"/>'
-      // Head (rounded, cream fill, ink stroke)
-      + '<ellipse cx="45" cy="50" rx="20" ry="19" fill="#f4e8d0" stroke="#4a2c08" stroke-width="1.5"/>'
-      // Eyes — ink dots with white shine
-      + '<circle cx="37.5" cy="46" r="3.6" fill="#2a1608"/>'
-      + '<circle cx="52.5" cy="46" r="3.6" fill="#2a1608"/>'
-      + '<circle cx="38.8" cy="44.7" r="1.2" fill="white"/>'
-      + '<circle cx="53.8" cy="44.7" r="1.2" fill="white"/>'
-      // Nose (small heart shape)
-      + '<path d="M42.5 52 Q45 50.5 47.5 52 Q45 54.5 42.5 52 Z" fill="#c07878"/>'
-      // Mouth
-      + '<path d="M40.5 54 Q45 57.5 49.5 54" stroke="#c07878" stroke-width="1.1" fill="none" stroke-linecap="round"/>'
-      // Whiskers left (gentle curves)
-      + '<path d="M13,46 Q27,46.5 35.5,46" stroke="#9b7848" stroke-width="1" opacity="0.65" fill="none"/>'
-      + '<path d="M13,49.5 Q27,49 35.5,49" stroke="#9b7848" stroke-width="1" opacity="0.65" fill="none"/>'
-      // Whiskers right
-      + '<path d="M54.5,46 Q63,46.5 77,46" stroke="#9b7848" stroke-width="1" opacity="0.65" fill="none"/>'
-      + '<path d="M54.5,49 Q63,49 77,49.5" stroke="#9b7848" stroke-width="1" opacity="0.65" fill="none"/>'
+      // Wax layers — dark outer rim, deeper wine center
+      + '<circle cx="45" cy="45" r="42" fill="#3d0a14" filter="url(#wgrf)"/>'
+      + '<circle cx="45" cy="45" r="38" fill="#6e1122" filter="url(#wgrf)"/>'
+      + '<circle cx="45" cy="45" r="33" fill="#8c1a2d" filter="url(#wgrf)"/>'
+      // Stamp impression — outer decorative border ring
+      + '<circle cx="45" cy="45" r="28" fill="none" stroke="#3d0a14" stroke-width="2.8" opacity="0.72"/>'
+      // Inner ring
+      + '<circle cx="45" cy="45" r="20" fill="none" stroke="#3d0a14" stroke-width="1.1" opacity="0.5"/>'
+      // 8-petal rosette (4 overlapping ellipses)
+      + '<ellipse cx="45" cy="45" rx="3.5" ry="9" fill="#3d0a14" opacity="0.62"/>'
+      + '<ellipse cx="45" cy="45" rx="3.5" ry="9" fill="#3d0a14" opacity="0.62" transform="rotate(45,45,45)"/>'
+      + '<ellipse cx="45" cy="45" rx="3.5" ry="9" fill="#3d0a14" opacity="0.62" transform="rotate(90,45,45)"/>'
+      + '<ellipse cx="45" cy="45" rx="3.5" ry="9" fill="#3d0a14" opacity="0.62" transform="rotate(135,45,45)"/>'
+      // Center dot
+      + '<circle cx="45" cy="45" r="4" fill="#3d0a14" opacity="0.68"/>'
       + '</svg>';
 
     // Pen-sketch style envelope with hand-drawn edges
@@ -109,8 +93,7 @@
 
     var s = document.createElement('style'); s.textContent = css;
     var div = document.createElement('div'); div.id = 'wg-intro';
-    div.innerHTML = '<div id="wg-env-wrap">' + envelopeSvg + sealSvg + '</div>'
-                  + '<div id="wg-text">わたげのお便り</div>';
+    div.innerHTML = '<div id="wg-env-wrap">' + envelopeSvg + sealSvg + '</div>';
     document.head.appendChild(s);
     document.body.appendChild(div);
 
