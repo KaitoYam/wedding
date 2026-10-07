@@ -33,11 +33,12 @@
       '@keyframes wgEnvIn{from{transform:translateY(-24px) scale(0.86);opacity:0;}to{transform:translateY(0) scale(1);opacity:1;}}',
       '#wg-seal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:wgSealPop 0.55s cubic-bezier(0.175,0.885,0.32,1.275) 0.72s both;}',
       '@keyframes wgSealPop{from{transform:translate(-50%,-50%) scale(0) rotate(-18deg);}to{transform:translate(-50%,-50%) scale(1) rotate(0deg);}}',
+      '@keyframes wgSealFly{0%{transform:translate(-50%,-50%) scale(1) rotate(0deg);opacity:1;}18%{transform:translate(-50%,-50%) scale(1.08) rotate(-6deg);opacity:1;}100%{transform:translate(calc(-50% + 72px),calc(-50% - 105px)) scale(0.08) rotate(52deg);opacity:0;}}',
       ''
     ].join('');
 
     // Classic wine-red wax seal
-    var sealSvg = '<svg id="wg-seal" width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">'
+    var sealSvg = '<svg id="wg-seal" width="58" height="58" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">'
       + '<defs>'
       + '<filter id="wgrf" x="-10%" y="-10%" width="120%" height="120%">'
       + '<feTurbulence type="fractalNoise" baseFrequency="0.042" numOctaves="4" seed="7" result="n"/>'
@@ -75,7 +76,7 @@
       + '<polygon points="1,1 120,86 1,169" fill="#e8dcc0"/>'
       + '<polygon points="239,1 120,86 239,169" fill="#e8dcc0"/>'
       + '<polygon points="1,169 239,169 120,86" fill="#ece0c8"/>'
-      + '<polygon points="1,1 239,1 120,86" fill="#f0e4ce"/>'
+      + '<polygon id="wg-flap" points="1,1 239,1 120,86" fill="#f0e4ce"><animate id="wg-flap-anim" attributeName="points" from="1,1 239,1 120,86" to="1,1 239,1 120,-84" dur="0.55s" begin="indefinite" fill="freeze" calcMode="spline" keySplines="0.42 0 0.18 1" keyTimes="0;1"/></polygon>'
       // Hand-drawn outer border (ink, slightly wobbly)
       + '<rect x="1" y="1" width="238" height="168" rx="3" fill="none" stroke="#5c3d1a" stroke-width="1.6" filter="url(#wgef)"/>'
       // Fold lines
@@ -103,7 +104,15 @@
       setTimeout(function(){div.style.display='none';},800);
     }
     div.addEventListener('click',dismiss);
-    setTimeout(dismiss,2400);
+    setTimeout(function(){
+      var seal = document.getElementById('wg-seal');
+      if(seal){ seal.style.animation = 'wgSealFly 0.5s cubic-bezier(0.55,0,0.8,0) forwards'; }
+      setTimeout(function(){
+        var fa = document.getElementById('wg-flap-anim');
+        if(fa){ fa.beginElement(); }
+      }, 220);
+    }, 2200);
+    setTimeout(dismiss,4800);
   };
 })();
 </script>
