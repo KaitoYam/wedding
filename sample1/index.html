@@ -677,6 +677,18 @@ document.addEventListener('submit',function(e){
     if (isShinzoku) {
       document.body.style.zoom = '1.18';
     }
+
+    // 来賓用: 「親族控室 集合」(15:55)行を非表示
+    if (!isShinzoku) {
+      var allEls = document.querySelectorAll('*');
+      for (var k = 0; k < allEls.length; k++) {
+        if (allEls[k].childNodes.length === 1 && allEls[k].textContent.trim() === '15:55') {
+          var row = allEls[k].closest('li') || allEls[k].parentElement;
+          if (row) row.style.display = 'none';
+          break;
+        }
+      }
+    }
   }
 
   if (document.readyState === 'loading') {
