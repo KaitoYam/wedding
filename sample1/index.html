@@ -61,6 +61,13 @@
       + '<circle cx="45" cy="45" r="4" fill="#3d0a14" opacity="0.68"/>'
       + '</svg>';
 
+    // 初回訪問日をlocalStorageに保存・取得
+    var fvKey = 'wg_first_visit';
+    var fvTs = localStorage.getItem(fvKey);
+    if (!fvTs) { fvTs = String(Date.now()); localStorage.setItem(fvKey, fvTs); }
+    var fvD = new Date(parseInt(fvTs));
+    var displayDate = fvD.getFullYear() + ' · ' + String(fvD.getMonth()+1).padStart(2,'0') + ' · ' + String(fvD.getDate()).padStart(2,'0');
+
     // Pen-sketch style envelope with hand-drawn edges
     var envelopeSvg = '<svg width="240" height="170" viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg">'
       + '<defs>'
@@ -86,9 +93,8 @@
       // Decorative postage stamp box (top-right)
       + '<rect x="195" y="8" width="35" height="25" rx="1" fill="none" stroke="#5c3d1a" stroke-width="0.9" opacity="0.32" filter="url(#wgef)"/>'
       // Text
-      + '<text x="120" y="133" text-anchor="middle" font-family="Georgia,\'Cormorant Garamond\',serif" font-size="9.5" fill="#5c3d1a" opacity="0.78" letter-spacing="1.8">KAITO &amp; SHIZUKA</text>'
-      + '<text x="120" y="148" text-anchor="middle" font-family="Georgia,\'Cormorant Garamond\',serif" font-size="9" fill="#5c3d1a" opacity="0.65" letter-spacing="2.5">2026 · 12 · 12</text>'
-      + '<text x="120" y="162" text-anchor="middle" font-family="\'Noto Sans JP\',sans-serif" font-size="7.5" fill="#5c3d1a" opacity="0.5" letter-spacing="1">品川プリンスホテル</text>'
+      + '<text x="120" y="143" text-anchor="middle" font-family="Georgia,\'Cormorant Garamond\',serif" font-size="9" fill="#5c3d1a" opacity="0.65" letter-spacing="2.5">' + displayDate + '</text>'
+      + '<text x="120" y="159" text-anchor="middle" font-family="\'Noto Sans JP\',sans-serif" font-size="7.5" fill="#5c3d1a" opacity="0.5" letter-spacing="1">品川プリンスホテル</text>'
       + '</svg>';
 
     var s = document.createElement('style'); s.textContent = css;
