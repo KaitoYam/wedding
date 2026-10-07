@@ -605,7 +605,7 @@ document.addEventListener('submit',function(e){
       var photoDiv = card.querySelector('[style*="aspect-ratio"]');
       if (photoDiv) photoDiv.style.animationName = 'none';
       card.style.opacity = '0';
-      card.style.transform = 'translateY(20px)';
+      card.style.transform = 'scale(0.9) translateY(20px)';
       card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
     });
 
@@ -613,7 +613,7 @@ document.addEventListener('submit',function(e){
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
           entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
+          entry.target.style.transform = 'scale(0.9)';
           observer.unobserve(entry.target);
         }
       });
