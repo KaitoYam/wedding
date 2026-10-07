@@ -673,9 +673,46 @@ document.addEventListener('submit',function(e){
       }
     }
 
-    // 親族用: テキストを全体的に大きく
+    // 親族用: テキストを全体的に大きく＋タイムライン差し替え
     if (isShinzoku) {
       document.body.style.zoom = '1.18';
+
+      var shinzokuTimeline = [
+        { time: '15:45', title: '親族控室オープン',           note: 'メインタワー3F' },
+        { time: '15:55', title: '親族集合',                   note: 'メインタワー3F' },
+        { time: '16:05', title: '親族紹介',                   note: 'メインタワー3F' },
+        { time: '16:25', title: 'スタジオ撮影（親族ご集合）', note: 'メインタワー3F' },
+        { time: '16:45', title: '挙式',                       note: 'ホワイトチャペル' },
+        { time: '17:15', title: '退場',                       note: '' },
+        { time: '挙式後', title: '親族様 移動・受付開始',     note: '' },
+        { time: '17:45', title: '親族様・列席者様移動',       note: 'メインタワーF 披露宴会場' },
+        { time: '18:00', title: '披露宴開宴',                 note: 'ガーネット36' },
+        { time: '20:30', title: 'お開き',                     note: '' }
+      ];
+      function makeRow(t, title, note) {
+        return '<div style="display:grid;grid-template-columns:70px 1px 1fr;gap:18px;">'
+          + '<div style="text-align:right;font-family:\'Cormorant Garamond\',serif;font-size:21px;line-height:1.1;color:rgb(255,255,255);padding-top:2px;font-weight:300;">' + t + '</div>'
+          + '<div style="background:linear-gradient(rgba(230,201,138,0.5),rgba(230,201,138,0.12));position:relative;"></div>'
+          + '<div style="padding-bottom:30px;">'
+          + '<div style="font-family:\'Shippori Mincho B1\',serif;font-size:15.5px;color:rgb(255,255,255);letter-spacing:0.08em;">' + title + '</div>'
+          + (note ? '<div style="font-size:12.5px;color:rgba(240,236,228,0.52);line-height:1.8;">' + note + '</div>' : '')
+          + '</div></div>';
+      }
+      var allEl2 = document.querySelectorAll('*');
+      var timeEl2 = null;
+      for (var m = 0; m < allEl2.length; m++) {
+        if (allEl2[m].childNodes.length === 1 && allEl2[m].textContent.trim() === '15:55') {
+          timeEl2 = allEl2[m]; break;
+        }
+      }
+      if (timeEl2) {
+        var gr = timeEl2.parentElement;
+        while (gr && window.getComputedStyle(gr).display !== 'grid') gr = gr.parentElement;
+        var tlContainer = gr ? gr.parentElement : null;
+        if (tlContainer) {
+          tlContainer.innerHTML = shinzokuTimeline.map(function(e) { return makeRow(e.time, e.title, e.note); }).join('');
+        }
+      }
     }
 
     // 来賓用: 「親族控室 集合」(15:55)行を非表示
