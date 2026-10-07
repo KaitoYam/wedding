@@ -32,7 +32,7 @@
       '#wg-env-wrap{position:relative;animation:wgEnvIn 0.65s cubic-bezier(0.34,1.56,0.64,1) 0.15s both;}',
       '@keyframes wgEnvIn{from{transform:translateY(-24px) scale(0.86);opacity:0;}to{transform:translateY(0) scale(1);opacity:1;}}',
       '#wg-seal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}',
-      '@keyframes wgSealFly{0%{transform:translate(-50%,-50%) scale(1) rotate(0deg);opacity:1;}18%{transform:translate(-50%,-50%) scale(1.08) rotate(-6deg);opacity:1;}100%{transform:translate(calc(-50% + 72px),calc(-50% - 105px)) scale(0.08) rotate(52deg);opacity:0;}}',
+      '@keyframes wgSealFly{from{transform:translate(-50%,-50%) scale(1);opacity:1;}to{transform:translate(-50%,calc(-50% - 20px)) scale(0.9);opacity:0;}}',
       ''
     ].join('');
 
@@ -111,7 +111,7 @@
         if(fa){ fa.beginElement(); }
         dismiss();
       }, 500);
-    }, 2200);
+    }, 1500);
   };
 })();
 </script>
