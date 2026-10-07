@@ -717,6 +717,11 @@ document.addEventListener('submit',function(e){
         break;
       }
     }
+
+    // 親族用: テキストを全体的に大きく
+    if (isShinzoku) {
+      document.body.style.zoom = '1.18';
+    }
   }
 
   if (document.readyState === 'loading') {
