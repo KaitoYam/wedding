@@ -553,9 +553,13 @@ document.addEventListener('submit',function(e){
   var cards = [];
   var slots = [];
 
+  function easeInOut(x) {
+    return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+  }
+
   function scaleT(p) {
-    if (p < 0.18) return p / 0.18;
-    if (p > 0.82) return (1 - p) / 0.18;
+    if (p < 0.2) return easeInOut(p / 0.2);
+    if (p > 0.8) return easeInOut((1 - p) / 0.2);
     return 1;
   }
 
@@ -585,10 +589,19 @@ document.addEventListener('submit',function(e){
         cards[i].style.left = '';
         cards[i].style.width = '';
         cards[i].style.zIndex = '';
+        if (sr.bottom <= 0) opacity = '0';
       }
 
       cards[i].style.transform = 'scale(' + scale + ')';
       cards[i].style.opacity = opacity;
+    }
+  }
+
+  var ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(function() { update(); ticking = false; });
+      ticking = true;
     }
   }
 
@@ -607,13 +620,13 @@ document.addEventListener('submit',function(e){
 
       card.style.marginBottom = '0';
       card.style.transformOrigin = 'center';
-      card.style.transition = 'transform 0.25s ease-out, opacity 0.25s ease-out';
+      card.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
 
       var photoDiv = card.querySelector('[style*="aspect-ratio"]');
       if (photoDiv) photoDiv.style.animationName = 'none';
     });
 
-    window.addEventListener('scroll', update, {passive: true});
+    window.addEventListener('scroll', onScroll, {passive: true});
     update();
   }
 
