@@ -95,10 +95,23 @@ h1{
 .swatch-b{ background: linear-gradient(135deg,#1e1308 0%,#100c08 60%); }
 .swatch-c{ background: linear-gradient(135deg,#170c12 0%,#0e0c0d 60%); }
 .swatch-d{ background: linear-gradient(135deg,#0d1222 0%,#0a0d14 60%); }
+.swatch-e{ background: linear-gradient(135deg,#1a1b1e 0%,#0d0e10 60%); position:relative; overflow:hidden; }
+.swatch-e video{ position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55; }
+.swatch-f{ background: linear-gradient(135deg,#1a1b1e 0%,#0d0e10 60%); }
 .accent-a{ color:#e6c98a; }
 .accent-b{ color:#c98a3a; }
 .accent-c{ color:#d4968a; }
 .accent-d{ color:#a0b4cc; }
+.accent-e{ color:#e6c98a; }
+.accent-f{ color:#e6c98a; }
+.section-tags{
+  display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;
+}
+.tag{
+  font-size:9px;letter-spacing:0.12em;padding:2px 7px;
+  border:1px solid rgba(255,255,255,.2);color:rgba(240,236,228,.55);
+  font-family:sans-serif;
+}
 .card-body{
   padding:14px 14px 16px;
 }
@@ -173,6 +186,39 @@ h1{
     <div class="card-body">
       <div class="card-label accent-d">D — Navy Silver</div>
       <div class="card-desc">クールネイビー<br>× シルバー</div>
+    </div>
+  </a>
+
+</div>
+
+<div style="width:100%;max-width:480px;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+
+  <a href="design-e.html" class="card">
+    <div class="card-swatch swatch-e">
+      <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5;"></video>
+      <div class="swatch-date" style="position:relative;z-index:1;">2026<span class="accent-e">.</span>12<span class="accent-e">.</span>12</div>
+      <div class="swatch-name" style="position:relative;z-index:1;">KAITO &amp; SHIZUKA</div>
+    </div>
+    <div class="card-body">
+      <div class="card-label accent-e">E — Video Hero</div>
+      <div class="card-desc">HEROを動画に変更<br>（Aベース）</div>
+      <div class="section-tags"><span class="tag">HERO</span></div>
+    </div>
+  </a>
+
+  <a href="design-f.html" class="card">
+    <div class="card-swatch swatch-f" style="justify-content:center;align-items:flex-start;flex-direction:row;gap:8px;padding:12px;">
+      <div style="width:36px;height:46px;background:rgba(255,255,255,.12);flex-shrink:0;position:relative;z-index:1;"></div>
+      <div style="padding-top:4px;position:relative;z-index:1;">
+        <div style="font-size:8px;letter-spacing:0.3em;color:#e6c98a;margin-bottom:3px;">GROOM</div>
+        <div style="font-size:11px;color:#fff;margin-bottom:4px;">山口 海斗</div>
+        <div style="width:80px;height:1px;background:rgba(255,255,255,.2);"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-label accent-f">F — Message Compact</div>
+      <div class="card-desc">写真小さめ＋横並び<br>（Aベース）</div>
+      <div class="section-tags"><span class="tag">MESSAGE</span></div>
     </div>
   </a>
 
