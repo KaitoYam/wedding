@@ -524,6 +524,7 @@ document.addEventListener('submit',function(e){
   if(!ok)return;
   var data=new FormData(form);
   data.set('entry.491400953',name);
+  data.set('entry.1748202238',kana);
   fetch('https://docs.google.com/forms/d/e/1FAIpQLSfpcQ87F2pSc_W6_UTqcvlBNuuY8N2yjEzmBgU0_bVzRVKuqA/formResponse',{method:'POST',mode:'no-cors',body:data}).then(function(){
     if(attend&&attend.value==='ご欠席'){document.getElementById('rsvp-msg-attend').style.display='none';document.getElementById('rsvp-msg-absent').style.display='block';}
     document.getElementById('rsvp-form-wrap').style.display='none';
